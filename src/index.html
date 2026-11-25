@@ -348,8 +348,10 @@ function areaOf(i){ const t=TYPES[i.type], m=dimsOf(i);
   if(t.shape==='circle') return Math.PI*(m.d/2)**2; if(t.shape==='rect') return m.w*m.h;
   if(t.shape==='stadium') return (m.w-m.h)*m.h+Math.PI*(m.h/2)**2; if(t.shape==='wedge') return (m.h+m.h2)/2*m.w;
   if(t.shape==='halfring') return Math.PI*((m.d/2)**2-(m.hole/2)**2)/2; return 0; }
+// 11/26 00:25 キムD 記録の配置（共有の記録から焼き込み・「初期配置に戻す」の内容）
+const RECORDED = {"items":[{"id":5,"type":"cpYellow","x":1800,"y":7250,"rot":330,"label":""},{"id":2,"type":"cpDeep","x":4150,"y":5700,"rot":0,"label":""},{"id":3,"type":"cpGreen","x":2850,"y":6550,"rot":0,"label":""},{"id":4,"type":"cpBlue","x":1450,"y":4200,"rot":330,"label":""},{"id":6,"type":"donut","x":3900,"y":6100,"rot":150,"label":"素材置き場"},{"id":7,"type":"donut","x":900,"y":5550,"rot":270,"label":"受付"},{"id":8,"type":"donut","x":3750,"y":4750,"rot":150,"label":"素材置き場"},{"id":9,"type":"donut","x":2750,"y":6800,"rot":330,"label":"素材置き場"},{"id":10,"type":"shelf","x":7850,"y":7400,"rot":135,"label":"素材棚"},{"id":12,"type":"shelf","x":3300,"y":8550,"rot":0,"label":"素材棚"},{"id":13,"type":"shelf","x":5200,"y":8550,"rot":0,"label":"素材棚"},{"id":14,"type":"table","x":6650,"y":6350,"rot":330,"label":""},{"id":15,"type":"table","x":4750,"y":3250,"rot":330,"label":""},{"id":16,"type":"table","x":6750,"y":1700,"rot":330,"label":""},{"id":17,"type":"table","x":8850,"y":5150,"rot":330,"label":""},{"id":18,"type":"tableY","x":7850,"y":3450,"rot":330,"label":""},{"id":19,"type":"stool","x":4000,"y":2750,"rot":0,"label":""},{"id":20,"type":"stool","x":6000,"y":5950,"rot":0,"label":""},{"id":21,"type":"stool","x":6550,"y":7200,"rot":0,"label":""},{"id":22,"type":"stool","x":7350,"y":6750,"rot":0,"label":""},{"id":23,"type":"stool","x":6750,"y":2450,"rot":0,"label":""},{"id":24,"type":"stool","x":6450,"y":4300,"rot":0,"label":""},{"id":25,"type":"stool","x":7350,"y":2200,"rot":0,"label":""},{"id":26,"type":"stool","x":5400,"y":3750,"rot":0,"label":""},{"id":27,"type":"stool","x":4750,"y":2350,"rot":0,"label":""},{"id":28,"type":"stool","x":4850,"y":4000,"rot":0,"label":""},{"id":29,"type":"stool","x":6700,"y":950,"rot":0,"label":""},{"id":30,"type":"stool","x":6050,"y":1350,"rot":0,"label":""},{"id":1000,"type":"shelf","x":1000,"y":3500,"rot":330,"label":"コドモデパート幕","fill":"#FFFFFF"},{"id":5000,"type":"ev","x":-1200,"y":2560,"rot":0,"label":"EV"},{"id":5001,"type":"pillar","x":2930,"y":3230,"rot":0,"label":"柱"},{"id":5002,"type":"pillar","x":6750,"y":8560,"rot":0,"label":"柱"},{"id":5003,"type":"pillar","x":11590,"y":-2910,"rot":0,"label":"柱"},{"id":5004,"type":"pillar","x":16170,"y":3760,"rot":0,"label":"柱"},{"id":5005,"type":"pillar","x":20760,"y":10830,"rot":0,"label":"柱"},{"id":5006,"type":"pillar","x":6750,"y":-9710,"rot":0,"label":"柱"},{"id":5007,"type":"pillar","x":10570,"y":14290,"rot":0,"label":"柱"},{"id":5008,"type":"bench","x":10570,"y":-4910,"rot":63,"label":""},{"id":5009,"type":"bench","x":12860,"y":-1440,"rot":63,"label":""},{"id":5010,"type":"bench","x":14390,"y":1090,"rot":63,"label":""},{"id":5011,"type":"bench","x":15540,"y":2960,"rot":63,"label":""},{"id":5012,"type":"bench","x":17700,"y":5360,"rot":63,"label":""},{"id":5013,"type":"storage","x":8350,"y":-8550,"rot":63,"label":"物品置き場"},{"id":5014,"type":"stool","x":7800,"y":2700,"rot":0,"label":""},{"id":5015,"type":"stool","x":7150,"y":3100,"rot":0,"label":""},{"id":5016,"type":"stool","x":8450,"y":3850,"rot":0,"label":""},{"id":5017,"type":"stool","x":7900,"y":4200,"rot":0,"label":""},{"id":5018,"type":"stool","x":8200,"y":4800,"rot":0,"label":""},{"id":5019,"type":"stool","x":8750,"y":4450,"rot":0,"label":""},{"id":5020,"type":"stool","x":8900,"y":5850,"rot":0,"label":""},{"id":5021,"type":"stool","x":9600,"y":5450,"rot":0,"label":""},{"id":5022,"type":"stool","x":150,"y":4550,"rot":0,"label":""},{"id":5023,"type":"stool","x":900,"y":5550,"rot":0,"label":""},{"id":5024,"type":"stool","x":8900,"y":2900,"rot":0,"label":""},{"id":5025,"type":"stool","x":7750,"y":1200,"rot":0,"label":""},{"id":5026,"type":"stool","x":9850,"y":4550,"rot":0,"label":""},{"id":5027,"type":"stool","x":5850,"y":2700,"rot":0,"label":""},{"id":5028,"type":"stool","x":6550,"y":5650,"rot":0,"label":""},{"id":6000,"type":"roundTable","x":5900,"y":4800,"rot":0,"label":"大人道具","fill":"#8FA79C"},{"id":6001,"type":"stool","x":6600,"y":4850,"rot":0,"label":""},{"id":6002,"type":"stool","x":7650,"y":5850,"rot":0,"label":""},{"id":7000,"type":"trash","x":2950,"y":4050,"rot":0,"label":"ゴミ"},{"id":7001,"type":"trash","x":6600,"y":7750,"rot":0,"label":"ゴミ"},{"id":7002,"type":"easel","x":0,"y":6500,"rot":90,"label":"P1","fill":"#B7B9B8"},{"id":7003,"type":"easel","x":0,"y":7000,"rot":90,"label":"P2","fill":"#B7B9B8"},{"id":7004,"type":"easel","x":10600,"y":5400,"rot":300,"label":"P3","fill":"#B7B9B8"},{"id":7005,"type":"easel","x":10750,"y":4750,"rot":270,"label":"P4","fill":"#B7B9B8"},{"id":7006,"type":"easel","x":6800,"y":250,"rot":180,"label":"P5","fill":"#B7B9B8"},{"id":7007,"type":"easel","x":7500,"y":350,"rot":210,"label":"P6","fill":"#B7B9B8"},{"id":7008,"type":"trash","x":6400,"y":3400,"rot":0,"label":"ゴミ"},{"id":7009,"type":"trash","x":750,"y":4350,"rot":0,"label":"ゴミ"}],"floor":[[0,3900],[0,8700],[6400,8600],[10800,5100],[7200,0],[3500,2300]],"meta":{"title":"コドモデパート in 三茶縁日2026 設営図","venue":"三茶パティオ（キャロットタワー地下1階・噴水前）","date":"2026-11-28（土）・29（日）","author":"アートデザインラボ","note":"通路幅4mを確保"},"qty":{"shelf":5,"roundTable":2,"trash":4}};
 const OLD_FLOOR_V1 = JSON.stringify([[0,3400],[0,7600],[6400,7600],[9200,5200],[5600,400],[2800,2800]]);
-const DEFAULT_FLOOR = [[0,3900],[0,8700],[6400,8600],[10800,5100],[7200,0],[3500,2300]];
+const DEFAULT_FLOOR = RECORDED.floor.map(p=>p.slice());
 const DEFAULT_META = {title:'コドモデパート in 三茶縁日2026 設営図', venue:'三茶パティオ（キャロットタワー地下1階・噴水前）', date:'2026-11-28（土）・29（日）', author:'アートデザインラボ', note:'通路幅4mを確保'};
 // 固定物（建物レイヤー）：レイアウト図 p.14 ③パティオから読み取り（EV・丸柱7本・通路沿いベンチ5台・物品置き場）
 const FIXED = ()=>[
@@ -366,33 +368,11 @@ const EXTRA_V4 = ()=>[
   {type:'trash',x:7300,y:9500,rot:0,label:'ゴミ'}, {type:'trash',x:8000,y:9500,rot:0,label:'ゴミ'},
   ...[0,1,2,3,4,5].map(k=>({type:'easel',x:600+k*700,y:9500,rot:0,label:`P${k+1}`})),
 ];
-function defaultItems(){
-  let id=1; const it=[];
-  const add=(type,x,y,rot=0,label='')=>it.push({id:id++,type,x,y,rot,label});
-  FIXED().forEach(f=>it.push({id:id++,...f}));
-  // パンチカーペット（什器の下）
-  add('cpDeep',3200,5200); add('cpDeep',6300,3300);
-  add('cpGreen',1700,7000); add('cpBlue',8400,5600,-50); add('cpYellow',2300,2900,-30);
-  // 作業テーブル：半円2枚で大丸机 ×2
-  add('donut',3200,5200,0); add('donut',3200,5200,180);
-  add('donut',6300,3300,0); add('donut',6300,3300,180);
-  // 棚：左辺沿い
-  add('shelf',350,4900,90,'素材棚'); add('shelf',350,6800,90,'素材棚');
-  add('shelf',2200,8300,0,'素材棚'); add('shelf',4100,8300,0,'素材棚');
-  // テーブル：6,000辺に沿って
-  const ang=-50; const sx=8100, sy=6400, dx=Math.cos(ang*Math.PI/180), dy=Math.sin(ang*Math.PI/180);
-  for(let i=0;i<4;i++){ add('table', Math.round(sx+dx*i*1700), Math.round(sy+dy*i*1700), ang, i===0?'受付':''); }
-  add('tableY',1900,3000,-30,'プレゼント');
-  add('roundTable',5400,7300,0,'');
-  EXTRA_V4().forEach(f=>it.push({id:id++,...f}));
-  // 丸いす：大丸机の周り
-  [[3200,5200],[6300,3300]].forEach(([cx,cy])=>{ for(let k=0;k<6;k++){ const a=k*60*Math.PI/180; add('stool',Math.round(cx+Math.cos(a)*1250),Math.round(cy+Math.sin(a)*1250)); } });
-  return it;
-}
+function defaultItems(){ return JSON.parse(JSON.stringify(RECORDED.items)); }
 
 // ---------- 状態 ----------
 const LS='sancha-patio-layout-v1';
-let state = {items:defaultItems(), floor:DEFAULT_FLOOR.map(p=>p.slice()), meta:{...DEFAULT_META}, qty:{}, bg:null, layers:DEFAULT_LAYERS(), fixedV2:true, snapV3:true, extraV4:true, snapshots:[]};
+let state = {items:defaultItems(), floor:DEFAULT_FLOOR.map(p=>p.slice()), meta:{...DEFAULT_META,...RECORDED.meta}, qty:{...RECORDED.qty}, bg:null, layers:DEFAULT_LAYERS(), fixedV2:true, snapV3:true, extraV4:true, recV5:true, snapshots:[]};
 let nextId = 1000;
 let sel = null;
 let hist=[], future=[];
@@ -410,7 +390,9 @@ function load(){
     state.snapshots=Array.isArray(s.snapshots)?s.snapshots:[];
     if(!s.snapV3){ state.snapshots.unshift({name:'自動記録（丸テーブル追加前）',at:Date.now(),items:JSON.parse(JSON.stringify(state.items)),floor:JSON.parse(JSON.stringify(state.floor))}); state.snapV3=true; }
     if(!state.items.some(i=>i.type==='roundTable')) state.items.push({id:6000,type:'roundTable',x:5400,y:7300,rot:0,label:''});
-    if(!s.extraV4){ let id=7000; EXTRA_V4().forEach(f=>state.items.push({id:id++,...f})); state.extraV4=true; } } }catch(e){}
+    if(!s.extraV4){ let id=7000; EXTRA_V4().forEach(f=>state.items.push({id:id++,...f})); state.extraV4=true; }
+    if(!s.recV5){ state.snapshots=state.snapshots||[]; state.snapshots.unshift({name:'自動記録（11/26 キムD記録を反映する前）',at:Date.now(),items:JSON.parse(JSON.stringify(state.items)),floor:JSON.parse(JSON.stringify(state.floor))}); if(state.snapshots.length>20) state.snapshots.length=20;
+      state.items=defaultItems(); state.floor=DEFAULT_FLOOR.map(p=>p.slice()); state.meta={...state.meta,...RECORDED.meta}; state.qty={...RECORDED.qty}; state.recV5=true; } } }catch(e){}
   nextId = Math.max(1000, ...state.items.map(i=>i.id+1));
 }
 function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
@@ -728,7 +710,7 @@ $('#snap').onchange=()=>{ $('#snapPill').classList.toggle('on',$('#snap').checke
 $('#btnSnap').onclick=()=>{ const dt=new Date(); const def=`配置 ${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`; const name=prompt('記録の名前',def); if(name===null) return; state.snapshots=state.snapshots||[]; state.snapshots.unshift({name:name||def,at:Date.now(),items:JSON.parse(JSON.stringify(state.items)),floor:JSON.parse(JSON.stringify(state.floor))}); if(state.snapshots.length>20) state.snapshots.length=20; save(); renderSnaps(); toast('配置を記録しました'); };
 $('#btnCloudSave').onclick=cloudSave; $('#btnCloudRefresh').onclick=cloudRefresh;
 try{ $('#cloudAuthor').value=localStorage.getItem('sancha-patio-author')||''; }catch(e){}
-$('#btnReset').onclick=()=>{ if(!confirm('初期配置に戻しますか？（現在の配置は「戻す」で復元できます）')) return; state.items=defaultItems(); nextId=1000; sel=null; commit(); renderItems(); };
+$('#btnReset').onclick=()=>{ if(!confirm('初期配置（11/26 キムD記録）に戻しますか？（現在の配置は「戻す」で復元できます）')) return; state.items=defaultItems(); state.floor=DEFAULT_FLOOR.map(p=>p.slice()); state.qty={...RECORDED.qty}; nextId=Math.max(1000,...state.items.map(i=>i.id+1)); sel=null; commit(); renderAll(); };
 $('#btnClear').onclick=()=>{ if(!confirm('すべての什器を片付けますか？')) return; state.items=[]; sel=null; commit(); renderItems(); };
 
 // 図面枠
