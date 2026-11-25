@@ -192,7 +192,15 @@ dialog p{margin:0 0 10px;font-size:12px;color:var(--ink-2);line-height:1.6}
         <button id="btnSnap" class="primary">現在の配置を記録</button>
       </div>
       <div id="snapList"></div>
-      <div class="row">
+      <div class="eyebrow" style="margin-top:12px">共有の記録<small style="font-weight:500;color:var(--ink-3)">　全員で見られます</small></div>
+      <div class="field"><label>記録者</label><input type="text" id="cloudAuthor" placeholder="例：さとこ"></div>
+      <div class="row" style="margin-top:0">
+        <button id="btnCloudSave" class="primary">共有に記録</button>
+        <button id="btnCloudRefresh">一覧を更新</button>
+      </div>
+      <div id="cloudList"></div>
+      <div id="cloudMsg" class="note" hidden></div>
+      <div class="row" style="margin-top:12px">
         <button id="btnReset">初期配置に戻す</button>
         <button id="btnClear" class="danger">すべて片付ける</button>
       </div>
@@ -580,6 +588,42 @@ function renderPaletteCounts(){
     } else { c.innerHTML=`<span class="badge">${n}</span>`; }
   });
 }
+// ---------- 共有の記録（GAS Web App：Google スプレッドシートに保存） ----------
+const CLOUD_API='https://script.google.com/macros/s/AKfycbxcyVbjxe5gYW13sdwJV1fy4jycpuixwdA_xYnbWvX0uVj8ah6c3wS5DcixPI81rIcb/exec';
+let cloudItems=null;
+async function cloudFetch(q, body){
+  const r = body ? await fetch(CLOUD_API,{method:'POST',body:JSON.stringify(body)}) : await fetch(CLOUD_API+'?'+q+'&_='+Date.now());
+  const t=await r.text(); let j; try{ j=JSON.parse(t); }catch(e){ throw new Error('not_json'); } if(!j.ok) throw new Error(j.error||'error'); return j;
+}
+function cloudMsg(m){ const e=$('#cloudMsg'); if(!e) return; e.hidden=!m; e.textContent=m||''; }
+function renderCloud(){
+  const box=$('#cloudList'); if(!box) return; box.innerHTML='';
+  (cloudItems||[]).forEach(sn=>{
+    const d=document.createElement('div'); d.className='snap';
+    const dt=new Date(sn.at); const when=`${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+    const info=document.createElement('div'); info.className='sn'; const b=document.createElement('b'); b.textContent=sn.name; const sp=document.createElement('span'); sp.textContent=`${when}・${sn.author||'—'}・${sn.count}点`; info.append(b,sp);
+    const r=document.createElement('button'); r.textContent='読み込む'; r.onclick=async()=>{ if(!confirm(`共有の記録「${sn.name}」を読み込みますか？（現在の配置は自動で記録してから置き換えます）`)) return;
+      try{ r.disabled=true; const j=await cloudFetch('action=get&id='+encodeURIComponent(sn.id)); const d=j.item.data||{};
+        state.snapshots=state.snapshots||[]; state.snapshots.unshift({name:'自動記録（共有を読み込む前）',at:Date.now(),items:JSON.parse(JSON.stringify(state.items)),floor:JSON.parse(JSON.stringify(state.floor))}); if(state.snapshots.length>20) state.snapshots.length=20;
+        hist.push(snapshot()); state.items=(d.items||[]).filter(i=>TYPES[i.type]); if(d.floor) state.floor=d.floor; if(d.meta) state.meta={...state.meta,...d.meta}; if(d.qty) state.qty=d.qty;
+        nextId=Math.max(1000,...state.items.map(i=>i.id+1)); sel=null; save(); renderAll(); fitView(); toast('共有の記録を読み込みました'); }
+      catch(e){ toast('読み込みに失敗しました'); } finally{ r.disabled=false; } };
+    const x=document.createElement('button'); x.textContent='削除'; x.className='danger'; x.onclick=async()=>{ if(!confirm(`共有の記録「${sn.name}」を全員の一覧から削除しますか？`)) return; try{ await cloudFetch('',{action:'delete',id:sn.id}); toast('削除しました'); cloudRefresh(); }catch(e){ toast('削除に失敗しました'); } };
+    d.append(info,r,x); box.appendChild(d);
+  });
+  if(cloudItems&&!cloudItems.length) cloudMsg('共有の記録はまだありません。');
+}
+async function cloudRefresh(){ try{ cloudMsg('読み込み中…'); const j=await cloudFetch('action=list'); cloudItems=j.items||[]; cloudMsg(''); renderCloud(); }
+  catch(e){ cloudItems=[]; renderCloud(); cloudMsg(e.message==='not_json'?'共有の記録は準備中です（管理者の承認待ち）。ブラウザ内の記録は使えます。':'共有の記録を取得できませんでした。'); } }
+async function cloudSave(){
+  const author=($('#cloudAuthor').value||'').trim(); if(!author){ toast('記録者の名前を入れてください'); $('#cloudAuthor').focus(); return; }
+  try{ localStorage.setItem('sancha-patio-author',author); }catch(e){}
+  const dt=new Date(); const def=`配置 ${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}（${author}）`;
+  const name=prompt('共有の記録の名前',def); if(name===null) return;
+  const btn=$('#btnCloudSave'); btn.disabled=true;
+  try{ await cloudFetch('',{action:'save',name:name||def,author,data:{items:state.items,floor:state.floor,meta:state.meta,qty:state.qty}}); toast('共有に記録しました'); cloudRefresh(); }
+  catch(e){ toast(e.message==='not_json'?'共有の記録は準備中です（管理者の承認待ち）':'記録に失敗しました'); } finally{ btn.disabled=false; }
+}
 function renderSnaps(){
   const box=$('#snapList'); if(!box) return; box.innerHTML='';
   (state.snapshots||[]).forEach((sn,idx)=>{
@@ -682,6 +726,8 @@ $('#iLabel').addEventListener('change',()=>commit());
 $('#undo').onclick=undo; $('#redo').onclick=redo;
 $('#snap').onchange=()=>{ $('#snapPill').classList.toggle('on',$('#snap').checked); save(); }; $('#showSize').onchange=()=>{ $('#sizePill').classList.toggle('on',$('#showSize').checked); renderItems(); };
 $('#btnSnap').onclick=()=>{ const dt=new Date(); const def=`配置 ${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`; const name=prompt('記録の名前',def); if(name===null) return; state.snapshots=state.snapshots||[]; state.snapshots.unshift({name:name||def,at:Date.now(),items:JSON.parse(JSON.stringify(state.items)),floor:JSON.parse(JSON.stringify(state.floor))}); if(state.snapshots.length>20) state.snapshots.length=20; save(); renderSnaps(); toast('配置を記録しました'); };
+$('#btnCloudSave').onclick=cloudSave; $('#btnCloudRefresh').onclick=cloudRefresh;
+try{ $('#cloudAuthor').value=localStorage.getItem('sancha-patio-author')||''; }catch(e){}
 $('#btnReset').onclick=()=>{ if(!confirm('初期配置に戻しますか？（現在の配置は「戻す」で復元できます）')) return; state.items=defaultItems(); nextId=1000; sel=null; commit(); renderItems(); };
 $('#btnClear').onclick=()=>{ if(!confirm('すべての什器を片付けますか？')) return; state.items=[]; sel=null; commit(); renderItems(); };
 
@@ -738,6 +784,7 @@ window.addEventListener('afterprint',()=>{ if(viewBackup){ view=viewBackup; appl
 // 起動
 load(); renderPalette(); renderAll();
 requestAnimationFrame(()=>{ fitView(); });
+setTimeout(cloudRefresh, 300);
 window.addEventListener('resize',()=>{ renderTitleBlock(); });
 })();
 </script>
