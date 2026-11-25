@@ -1,0 +1,743 @@
+<meta charset="utf-8">
+<title>三茶パティオ 設営図</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&display=swap">
+<style>
+:root{
+  /* アートデザインラボ 塾生日程管理 の配色（globals.css 準拠） */
+  --ground:#f9fafb; --paper:#ffffff; --panel:#ffffff; --ink:#1f2937; --ink-2:#6b7280; --ink-3:#9ca3af;
+  --line:#e5e7eb; --line-2:#d1d5db; --grid:#f3f4f6; --grid-major:#e5e7eb;
+  --brand-50:#fdf2f8; --brand-100:#fce7f3; --brand-500:#c2427e; --brand-600:#9d316d; --brand-700:#86295c; --brand-800:#6d234c;
+  --accent:var(--brand-500); --floor:#1f2937; --floor-fill:rgba(31,41,55,.035);
+  --red-50:#fef2f2; --red-300:#fca5a5; --red-600:#dc2626; --red-700:#b91c1c; --red-100:#fee2e2;
+  --btn:#ffffff; --btn-hover:#f9fafb; --focus:var(--brand-500);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Geist","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;font-size:13px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{display:inline-flex;align-items:center;justify-content:center;gap:4px;background:var(--btn);border:1px solid var(--line-2);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:500;color:#374151;cursor:pointer;line-height:1.3;transition:background-color .15s,color .15s}
+button:hover{background:var(--btn-hover)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+button.primary{background:var(--brand-600);color:#fff;border-color:transparent}
+button.primary:hover{background:var(--brand-700)}
+button.primary:active{background:var(--brand-800)}
+button.ghost{background:transparent;border-color:transparent;color:var(--brand-600)}
+button.ghost:hover{background:var(--btn-hover);color:var(--brand-800)}
+button.danger{color:var(--red-600);border-color:var(--red-300)}
+button.danger:hover{background:var(--red-50)}
+button[disabled]{opacity:.45;cursor:not-allowed}
+input[type=number],input[type=text],select,textarea{background:#fff;border:1px solid var(--line-2);border-radius:8px;padding:6px 10px;width:100%;font-size:13px}
+input:focus,textarea:focus{outline:none;box-shadow:0 0 0 2px var(--brand-500);border-color:transparent}
+input[type=number]{font-variant-numeric:tabular-nums}
+.mono{font-variant-numeric:tabular-nums;letter-spacing:.01em}
+
+#app{display:grid;grid-template-columns:248px 1fr 256px;grid-template-rows:56px 1fr;height:100vh;height:100dvh}
+header{grid-column:1/-1;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid var(--line);background:#fff;position:relative;z-index:5}
+header .logo{display:flex;align-items:center;gap:10px;margin-right:6px}
+header .logo img{height:28px;width:auto;display:block}
+header h1{font-size:13px;font-weight:700;color:var(--ink);margin:0;white-space:nowrap;letter-spacing:.01em}
+header .sub{color:var(--ink-2);font-size:11px;white-space:nowrap}
+header .spacer{flex:1}
+header .grp{display:flex;gap:4px;align-items:center}
+header .grp + .grp{margin-left:4px;padding-left:8px;border-left:1px solid var(--line)}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:500;color:var(--ink-2);cursor:pointer;user-select:none;white-space:nowrap;border:1px solid transparent;background:transparent}
+.pill:hover{background:#f3f4f6}
+.pill.on{background:var(--brand-100);color:var(--brand-700)}
+.pill input{position:absolute;opacity:0;width:0;height:0}
+
+aside{background:var(--ground);overflow:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+aside.left{border-right:1px solid var(--line)}
+aside.right{border-left:1px solid var(--line)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.card h2{font-size:13px;font-weight:700;color:#374151;margin:0 0 10px}
+.card h2 small{font-weight:500;color:var(--ink-3);font-size:11px;margin-left:6px}
+.eyebrow{font-size:11px;font-weight:700;color:var(--ink-2);margin:8px 0 6px}
+.eyebrow:first-child{margin-top:0}
+.part{display:grid;grid-template-columns:40px 1fr auto;gap:8px;align-items:center;padding:6px 6px;border-radius:8px;cursor:grab;border:1px solid transparent}
+.part:hover{background:#f9fafb;border-color:var(--line)}
+.part:active{cursor:grabbing}
+.part svg{width:40px;height:28px;display:block}
+.part .nm{font-weight:500;font-size:12px;color:var(--ink)}
+.part .dim{font-size:10.5px;color:var(--ink-2)}
+.part .cnt{text-align:right}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:1px 9px;border-radius:999px;font-size:10px;font-weight:500;border:1px solid var(--line-2);background:#f3f4f6;color:#374151;white-space:nowrap}
+.badge.over{background:var(--red-100);color:var(--red-700);border-color:var(--red-300)}
+.badge.brand{background:var(--brand-100);color:var(--brand-700);border-color:#f9a8d4}
+.badge input{width:34px;padding:0 2px;border:0;background:transparent;font-size:10px;text-align:right;border-radius:0}
+.badge input:focus{box-shadow:none;outline:1px solid var(--brand-500)}
+.hint{font-size:11px;color:var(--ink-2);margin:10px 0 0;line-height:1.6;padding:10px 12px;border-radius:8px;background:#f9fafb;border:1px solid var(--line)}
+.hint kbd{font-size:10px;border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:0 4px;background:#fff;color:#374151}
+.layer{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid #f3f4f6}
+.layer:last-child{border-bottom:0}
+.layer .lname{flex:1;font-weight:500;font-size:12px;color:var(--ink)}
+.layer .lcnt{font-size:10px;color:var(--ink-2)}
+.layer .tg{padding:2px 9px;border-radius:999px;font-size:10px;font-weight:500;border:1px solid var(--line-2);background:#fff;color:var(--ink-2);cursor:pointer}
+.layer .tg.on{background:var(--brand-100);color:var(--brand-700);border-color:#f9a8d4}
+.arow{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:#374151}
+.arow.total{border-top:1px solid var(--line);margin-top:4px;padding-top:6px;font-weight:700;color:var(--ink)}
+.note{font-size:11px;color:var(--ink-2);margin:6px 0 0;line-height:1.55}
+.snap{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:11.5px}
+.snap:last-child{border-bottom:0}
+.snap .sn{flex:1;min-width:0}
+.snap .sn b{display:block;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.snap .sn span{color:var(--ink-3);font-size:10px}
+.snap button{padding:2px 8px;font-size:10px;border-radius:999px}
+
+main{position:relative;overflow:hidden;background:var(--ground);padding:12px}
+.canvas{position:relative;width:100%;height:100%;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+#svg{width:100%;height:100%;display:block;touch-action:none;cursor:default}
+#svg.panning{cursor:grabbing}
+.item{cursor:move}
+.item text{pointer-events:none;user-select:none;font-family:"Geist","Hiragino Sans",sans-serif}
+.item .size{font-variant-numeric:tabular-nums}
+.handle{cursor:crosshair}
+.dimlabel{fill:var(--ink-2);font-weight:500;font-variant-numeric:tabular-nums}
+.tb{font-family:"Geist","Hiragino Sans",sans-serif}
+.tb-h{font-weight:700}
+#zoomtag{position:absolute;left:12px;bottom:10px;font-size:10px;color:var(--ink-3);pointer-events:none;background:rgba(255,255,255,.8);padding:2px 8px;border-radius:999px}
+#toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);background:#1f2937;color:#fff;padding:6px 14px;border-radius:999px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:3}
+#toast.show{opacity:1}
+
+.field{display:grid;grid-template-columns:56px 1fr;align-items:center;gap:6px;margin-bottom:8px}
+.field label{font-size:11px;color:var(--ink-2);font-weight:500}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.row button{flex:1 1 auto;padding:6px 8px;font-size:12px}
+.swatches{display:flex;gap:6px;flex-wrap:wrap}
+.sw{width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);cursor:pointer;padding:0}
+.sw.on{outline:2px solid var(--brand-500);outline-offset:1px}
+#noSel{color:var(--ink-2);font-size:12px;line-height:1.6}
+details{border-top:1px solid #f3f4f6;padding-top:8px;margin-top:4px}
+details summary{cursor:pointer;font-weight:700;font-size:12px;color:#374151;padding:4px 0;list-style:none;display:flex;align-items:center;gap:6px}
+details summary::before{content:"";width:6px;height:6px;border-right:1.5px solid var(--ink-3);border-bottom:1.5px solid var(--ink-3);transform:rotate(-45deg);transition:transform .15s}
+details[open] summary::before{transform:rotate(45deg)}
+details > *:not(summary){margin-top:8px}
+textarea{min-height:120px;resize:vertical;font-size:11.5px;font-variant-numeric:tabular-nums}
+.range{display:grid;grid-template-columns:52px 1fr 40px;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--ink-2)}
+
+dialog{border:0;border-radius:16px;background:#fff;color:var(--ink);padding:0;width:min(560px,92vw);overflow:hidden}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+dialog .dh{border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+dialog h2{font-size:13px;font-weight:700;color:var(--ink);margin:0}
+dialog .db{padding:16px 20px}
+dialog .df{border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:flex-end;gap:8px}
+dialog p{margin:0 0 10px;font-size:12px;color:var(--ink-2);line-height:1.6}
+.xbtn{width:32px;height:32px;border-radius:50%;border:0;background:transparent;color:var(--ink-2);padding:0;font-size:16px}
+.xbtn:hover{background:#f3f4f6;color:#374151}
+
+@media (max-width:900px){
+  #app{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}
+  header{flex-wrap:wrap;height:auto;padding:8px 10px;gap:6px}
+  header .sub{display:none}
+  aside.left{flex-direction:row;overflow-x:auto;padding:8px;border-right:0;border-bottom:1px solid var(--line);order:0;gap:8px}
+  aside.left .card{flex:0 0 auto;padding:8px 10px}
+  aside.left .hint,aside.left #carpetArea{display:none}
+  aside.left #palette{display:flex;gap:4px}
+  aside.left #palette .eyebrow{display:none}
+  .part{grid-template-columns:32px 1fr;min-width:120px;flex:0 0 auto}
+  .part .cnt{grid-column:1/-1;text-align:left}
+  #layers{display:flex;gap:4px}
+  .layer{flex-direction:column;gap:2px;padding:2px 6px;border:0}
+  main{order:1;min-height:52vh;padding:8px}
+  aside.right{order:2;max-height:34vh;border-left:0;border-top:1px solid var(--line)}
+}
+@media print{
+  @page{size:A4 landscape;margin:8mm}
+  body{overflow:visible;background:#fff}
+  #app{display:block;height:auto}
+  header,aside,#zoomtag,#toast{display:none!important}
+  main{width:100%;height:190mm;background:#fff;padding:0}
+  .canvas{border:0;border-radius:0}
+  #svg{width:100%;height:100%}
+}
+@media (prefers-reduced-motion: reduce){ #toast{transition:none} }
+</style>
+
+<div id="app">
+  <header>
+    <a class="logo" href="#" onclick="return false"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iX+ODrOOCpOODpOODvF8xIiBkYXRhLW5hbWU9IuODrOOCpOODpOODvCAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MzIgMTc3LjUyIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZDRjYjAwOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICNiYTA0NzE7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTIzLjE1LDEzMS43NmwtMy45MSwxOC44MWMtMS4zLDYuNTEtMy45MSw5LjEyLTEwLjEzLDkuMTItNS43OSwwLTkuMTItMy4zMy05LjEyLTguMzksMC0xLjc0LjQzLTUuMDYsMS4xNi03Ljk2bDE4LjUyLTc3Ljk5YzIuNDYtMTAuNTYsNS4wNi0xMy42LDE1LjkyLTEzLjYsOS44NCwwLDEzLjQ2LDMuMDQsMTUuOTIsMTMuNmwxOC4zOCw3Ny40MWMuNzIsMy4xOCwxLjQ1LDYuMzcsMS40NSw3Ljk2LDAsNi41MS00Ljc3LDguOTctOS41NSw4Ljk3LTcuMDksMC05Ljg0LTIuODktMTEuNzItMTIuNTlsLTMuMDQtMTUuMzRoLTIzLjg4Wk00My45OSwxMTYuNDJsLTguNTQtNDMuMjZoLS4yOWwtOC44Myw0My4yNmgxNy42NVoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik03Ni44Myw2NC4wNGMwLTcuMjMsMy4zMy0xMC40MiwxMC40Mi0xMC40MmgyNi42MmMxNy41MSwwLDIzLjQ0LDEyLjAxLDIzLjQ0LDI2Ljc3LDAsMTMuNzUtMy43NiwxOS45Ny0xMi41OSwyMy41OSwxMC4yNywzLjYyLDEyLjAxLDkuOTksMTIuMDEsMjIuMTR2MTEuMTRjMCw1Ljc5LDEuMywxMSwxLjMsMTYuMjEsMCwzLjA0LTIuNzUsNi4yMi05LjI2LDYuMjItNy4yMywwLTExLjU4LTMuMDQtMTEuODctOS44NGwtLjg3LTI2LjYyYy0uMjktNy4yNC0zLjkxLTEwLjg1LTExLjQzLTEwLjg1aC04LjM5djM3LjMzYzAsNi4wOC00LjQ5LDkuOTgtOS42OSw5Ljk4cy05LjctMy45MS05LjctOS45OHYtODUuNjZaTTk2LjIyLDk3Ljc1aDcuNTJjNy44MSwwLDEzLjMxLTMuNDcsMTMuMzEtMTQuNzYsMC0xMC40Mi0zLjE4LTE0Ljc2LTEyLjQ0LTE0Ljc2aC04LjM5djI5LjUyWiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE5OS4yNSw1My42MmM3LjIzLDAsMTAuMTMsMy43NiwxMC4xMyw4LjY4cy0yLjg5LDguNjgtMTAuMTMsOC42OGgtMTUuMzR2NzguNzJjMCw2LjA4LTQuNDksOS45OC05LjcsOS45OHMtOS43LTMuOTEtOS43LTkuOTh2LTc4LjcyaC0xNS4zNGMtNy4yMywwLTEwLjEzLTMuNzYtMTAuMTMtOC42OHMyLjg5LTguNjgsMTAuMTMtOC42OGg1MC4wN1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik01NS45MywyNi4wN2MzLjg4LTIuOTksNy41Mi01Ljg5LDExLjI2LTguNjYsNC43Ni0zLjUyLDkuNC03LjI2LDE0LjQ1LTEwLjMyLDEyLjYtNy42NCwyNS45Mi05Ljc2LDM5LjU3LTMuMDksMTAuOTksNS4zNywxNy44MywxNC40MywyMC41MiwyNi4zNCwxLjY4LDcuNDItMS42LDEzLjIyLTguNjEsMTYuMy04LjQ3LDMuNzMtMTcuMzQsNS4zOC0yNi42LDUuNTEtMTEuMDMuMTYtMjEuNzEsMi41NC0zMS45OSw2LjM5LTEyLjU5LDQuNzEtMjUuMDMsOS44Mi0zNy41NywxNC42OC02LjEzLDIuMzgtMTIuNTEsMy43NC0xOS4xLDMuOTItOS4zNy4yNi0xNS45OC03LjQ2LTE0LjQ5LTE2Ljk4LDEuMDktNi45NSw1LjQyLTEyLjA1LDExLjExLTE1LjQxLDYuNjEtMy45LDEzLjgtNi44NCwyMC44NS05Ljk0LDMuNzctMS42NSw3Ljc4LTIuNzQsMTEuNjgtNC4xLjYxLS4yMSwxLjItLjUxLDIuMDEtLjg2LTQuMTYtNi44OS04LjI0LTEzLjYzLTEyLjUzLTIwLjc0LDEuMTUtLjI4LDIuMDgtLjUsMy4wMS0uNzIsMi41OS0uNjIsNS4yMi0xLjEyLDcuNzYtMS45MSwxLjc1LS41NCwyLjMuMDksMi43NywxLjY2LDEuNjksNS41NCwzLjUyLDExLjA0LDUuMywxNi41Ni4xMi4zNy4zMS43Mi41OSwxLjM3WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTIwOS45NSwxNjUuNTJjLjg1LDMuODIsMy4xOCw3LjM0LDYuNzQsOS42MSwzLjU3LDIuMjcsNy43NSwyLjg4LDExLjU2LDIuMDMsMy44Mi0uODUsNy4zNC0zLjE4LDkuNjEtNi43NWw1LjQ4LTguNjNjMi4yNy0zLjU2LDIuODgtNy43NCwyLjAzLTExLjU3LS4yLS45LS40OS0xLjc5LS44NS0yLjY1LDIuNTctNC4wNSwzLjcyLTUuNjMsNS40My04LjU0LDEuNjYtMi44MywzLjU0LTQuNDIsNS4yNy01LjI5LDAsMCwwLDAsMCwwdi0xNS45OXMwLDAsMCwwbC0yMC45NC0zMi45NmMtMy44NSwyLjQ1LTQuNjksNi4yMS0yLjU0LDExLjQxbDE1Ljk1LDMzLjM5LTMuMjcsNS4xNGMtMS41NCwyLjQyLTQuMDEsNS40OC04LjQ0LDQuNTItMi44OS0xLjEzLTYuMDEtMS4zMy04LjkxLS42OC0zLjgyLjg1LTcuMzUsMy4xOC05LjYxLDYuNzVsLTUuNDgsOC42M2MtMi4yNywzLjU3LTIuODgsNy43NC0yLjAyLDExLjU2Wk0yMTguMDMsMTU3LjgxbDUuNDgtOC42M2MxLjIyLTEuOTEsMy4wNi0zLjEzLDUuMTEtMy41OSwyLjA1LS40NSw0LjI0LS4xNCw2LjE1LDEuMDgsMS45MSwxLjIxLDMuMTMsMy4wNiwzLjU5LDUuMTEuNDUsMi4wNS4xNCw0LjI0LTEuMDgsNi4xNWwtNS40OCw4LjYzYy0xLjIyLDEuOTEtMy4wNiwzLjEzLTUuMTEsMy41OS0yLjA1LjQ1LTQuMjQuMTQtNi4xNS0xLjA4cy0zLjEzLTMuMDYtMy41OS01LjExYy0uNDUtMi4wNS0uMTQtNC4yNCwxLjA4LTYuMTVaIi8+CiAgPGc+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0yMzUuMjksNjYuNWMwLTcuMjMsMy4zMy0xMC40MiwxMC40Mi0xMC40MmgyNS4zMmMxOS45NywwLDI4LjA3LDE0LjA0LDI4LjA3LDQ1LjU4djEzLjQ2YzAsMzEuMjYtMTAuNTYsNDUuMTUtMjguOTQsNDUuMTVoLTI0LjQ1Yy03LjA5LDAtMTAuNDItMy4xOC0xMC40Mi0xMC40MnYtODMuMzVaTTI1NC42OCwxNDQuOTJoOC45N2MxMC4xMywwLDE1LjE5LTYuNTEsMTUuMTktMzMuNDN2LTguMzljMC0yMi44Ni0yLjYtMzEuNjktMTQuNjEtMzEuNjloLTkuNTV2NzMuNTFaIi8+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zMjUuMTUsMTQyLjloMjkuODFjNy4yMywwLDEwLjEzLDMuNzYsMTAuMTMsOC42OHMtMi44OSw4LjY4LTEwLjEzLDguNjhoLTM4Ljc4Yy03LjA5LDAtMTAuNDItMy4xOC0xMC40Mi0xMC40MnYtODMuMzVjMC03LjIzLDMuMzMtMTAuNDIsMTAuNDItMTAuNDJoMzcuNzdjNy4yNCwwLDEwLjEzLDMuNzYsMTAuMTMsOC42OHMtMi44OSw4LjY4LTEwLjEzLDguNjhoLTI4Ljh2MjQuMDJoMjYuOTFjNy4yMywwLDEwLjEzLDMuNzYsMTAuMTMsOC42OHMtMi44OSw4LjY4LTEwLjEzLDguNjhoLTI2LjkxdjI4LjA3WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMzgxLjg4LDEwNi41OGMtMTAuMTMtNy4yMy0xMy4xNy0xNS4xOS0xMy4xNy0yNS43NiwwLTE4LjM4LDE0LjE4LTI3LjIsMzAuNjgtMjcuMiwyMS43MSwwLDI4LjgsMTUuNDgsMjguOCwyNi4xOSwwLDYuNTEtNC4wNSw5Ljg0LTkuNTUsOS44NC03LjgxLDAtOC45Ny0zLjYyLTkuODQtMTEtLjg3LTcuMjMtNC45Mi05LjctMTAuNDItOS43LTUuOTMsMC0xMC4yNywzLjc2LTEwLjI3LDkuOTksMCw0Ljc3Ljg3LDkuMTIsMTAuNDIsMTUuNDhsMTQuMzIsOS40MWMxMC41Niw2Ljk1LDE2LjkzLDE0LjQ3LDE2LjkzLDI5LjY2LDAsMTcuOTQtMTAuNzEsMjkuMjMtMzIuOTksMjkuMjMtMjUuNDcsMC0yOC42NS0yMi41Ny0yOC42NS0yNy42NCwwLTYuOTUsMS41OS0xMy4xNyw5Ljg0LTEzLjE3LDYuMDgsMCw4Ljk3LDMuMzMsOS41NSwxMi41OS40Myw3LjA5LDMuNzYsMTIuODgsMTEuNTgsMTIuODhzMTEuMjktNS41LDExLjI5LTEyLjE1YzAtNy4wOS0yLjc1LTEwLjQyLTkuODQtMTUuNDhsLTE4LjY3LTEzLjE3WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNDM2Ljg3LDY0LjE4YzAtNi4wOCw0LjQ5LTkuOTksOS43LTkuOTlzOS43LDMuOTEsOS43LDkuOTl2ODcuOThjMCw2LjA4LTQuNDksOS45OC05LjcsOS45OHMtOS43LTMuOTEtOS43LTkuOTh2LTg3Ljk4WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNTI2LjQ0LDE1NC4xOGMwLDQuOTItMi4wMyw3Ljk2LTcuNTIsNy45Ni01LjIxLDAtNy42Ny0zLjc2LTcuNjctOC41NHYtMi43NWgtLjI5Yy00LjIsNy41Mi0xMC41NiwxMS4yOS0xOS4zOSwxMS4yOS0yMi44NiwwLTI3Ljc4LTIwLjI2LTI3Ljc4LTUwLjA2di0xMC41NmMwLTM1LjMxLDkuNDEtNDcuOSwzMy4xNC00Ny45LDIwLjY5LDAsMjkuNTIsMTMuMTcsMjkuNTIsMjUuMzIsMCw3LjA5LTIuNzUsMTEuNTgtOS43LDExLjU4cy04LjgzLTMuNDctOS43LTEyLjQ0Yy0uNDMtNC40OS0zLjE4LTkuMTItMTEtOS4xMi02Ljk1LDAtMTIuMDEsNC4yLTEyLjAxLDI4LjIydjE0LjQ3YzAsMjUuMzIsMi4xNywzNS4xNiwxMi44OCwzNS4xNiw4LjU0LDAsMTEtOC4zOSwxMS0yMS4xM3YtNS45M2gtNy45NmMtNS41LDAtNy44MS0zLjc2LTcuODEtOC4yNSwwLTUuNzksMy4xOC04LjI1LDguMzktOC4yNWgxNi4yMWM2Ljk1LDAsOS43LDMuMDQsOS43LDkuNTV2NDEuMzhaIi8+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01MzMuOTYsNjQuMThjMC02LjA4LDMuOTEtOS45OSwxMC43MS05Ljk5LDYuMDgsMCw5Ljk4LDEuNDUsMTMuNDYsOS44NGwyMy4wMSw1Ny4wMWguMjl2LTU2Ljg3YzAtNi4wOCw0LjQ5LTkuOTksOS43LTkuOTlzOS43LDMuOTEsOS43LDkuOTl2ODcuMTFjMCw2Ljk0LTQuNDksMTAuODUtOS43LDEwLjg1LTcuOTYsMC0xMS4yOS0xLjc0LTE0LjQ3LTkuODRsLTIzLjAxLTU3Ljg4aC0uMjl2NTcuNzRjMCw2LjA4LTQuNDksOS45OC05LjY5LDkuOThzLTkuNy0zLjkxLTkuNy05Ljk4di04Ny45OFoiLz4KICA8L2c+CiAgPGc+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik02NzguMywxNDMuNDhjNy4yMywwLDEwLjEzLDMuNzYsMTAuMTMsOC42OHMtMi44OSw4LjY4LTEwLjEzLDguNjhoLTM4LjA2Yy03LjA5LDAtMTAuNDItMy4xOC0xMC40Mi0xMC40MnYtODUuNjZjMC02LjA4LDQuNDktOS45OSw5LjctOS45OXM5LjY5LDMuOTEsOS42OSw5Ljk5djc4LjcyaDI5LjA5WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzE1Ljk3LDEzNC44bC0zLjkxLDE4LjgxYy0xLjMsNi41MS0zLjkxLDkuMTItMTAuMTMsOS4xMi01Ljc5LDAtOS4xMi0zLjMzLTkuMTItOC4zOSwwLTEuNzQuNDMtNS4wNiwxLjE2LTcuOTZsMTguNTItNzcuOTljMi40Ni0xMC41Niw1LjA2LTEzLjYsMTUuOTItMTMuNiw5Ljg0LDAsMTMuNDYsMy4wNCwxNS45MiwxMy42bDE4LjM4LDc3LjQxYy43MiwzLjE4LDEuNDUsNi4zNywxLjQ1LDcuOTYsMCw2LjUxLTQuNzcsOC45Ny05LjU1LDguOTctNy4wOSwwLTkuODQtMi44OS0xMS43Mi0xMi41OWwtMy4wNC0xNS4zNGgtMjMuODhaTTczNi44LDExOS40NmwtOC41NC00My4yNmgtLjI5bC04LjgzLDQzLjI2aDE3LjY1WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzY5LjY0LDY3LjA4YzAtNy4yMywzLjMzLTEwLjQyLDEwLjQyLTEwLjQyaDI2LjA1YzE2Ljc5LDAsMjMuMDEsMTAuNzEsMjMuMDEsMjYuOTEsMCwxMC4yNy00LjA1LDE4LjgxLTEwLjg1LDIxLjQyLDEwLjcxLDMuOTEsMTMuNzUsMTIuNTksMTMuNzUsMjMuNTksMCwxNi45My02Ljk0LDMyLjI3LTI2LjkxLDMyLjI3aC0yNS4wM2MtNy4wOSwwLTEwLjQyLTMuMTgtMTAuNDItMTAuNDJ2LTgzLjM1Wk03ODkuMDMsOTkuMDZoOC44M2M3Ljk2LDAsMTEuODYtNC43OCwxMS44Ni0xNC4zM3MtNC4zNC0xMy40Ni0xMC40Mi0xMy40NmgtMTAuMjd2MjcuNzhaTTc4OS4wMywxNDYuMjNoMTEuNThjNy4yMywwLDExLjE0LTUuNzksMTEuMTQtMTcuMjIsMC04LjM5LTIuNDYtMTUuMzQtMTEuNDMtMTUuMzRoLTExLjI5djMyLjU2WiIvPgogIDwvZz4KICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0yOTguMDMsMTUzLjk2bC01LjQ4LTguNjNjLTIuMjYtMy41Ny01Ljc5LTUuOS05LjYxLTYuNzUtMi45LS42NS02LjAyLS40NS04LjkxLjY4LTQuNDMuOTYtNi45LTIuMS04LjQ0LTQuNTJsLTMuMjctNS4xNCwxNS45NS0zMy4zOWMyLjE1LTUuMjEsMS4zMS04Ljk2LTIuNTQtMTEuNDFsLTIwLjk0LDMyLjk2aDBzMCwxNS45OSwwLDE1Ljk5YzAsMCwwLDAsMCwwLDEuNzMuODcsMy42LDIuNDUsNS4yNyw1LjI5LDEuNzEsMi45MSwyLjg2LDQuNDksNS40Myw4LjU0LS4zNy44Ni0uNjUsMS43NS0uODUsMi42NS0uODUsMy44Mi0uMjQsOCwyLjAzLDExLjU3bDUuNDgsOC42M2MyLjI3LDMuNTcsNS43OSw1LjksOS42MSw2Ljc1LDMuODIuODUsOCwuMjQsMTEuNTYtMi4wMywzLjU3LTIuMjYsNS45LTUuNzgsNi43NC05LjYxLjg1LTMuODIuMjQtOC0yLjAyLTExLjU2Wk0yOTMuMDQsMTYzLjk2Yy0uNDYsMi4wNS0xLjY4LDMuODktMy41OSw1LjExLTEuOTEsMS4yMS00LjEsMS41My02LjE1LDEuMDgtMi4wNS0uNDYtMy44OS0xLjY4LTUuMTEtMy41OWwtNS40OC04LjYzYy0xLjIxLTEuOTEtMS41My00LjEtMS4wOC02LjE1LjQ2LTIuMDUsMS42OC0zLjksMy41OS01LjExLDEuOTEtMS4yMSw0LjEtMS41Myw2LjE1LTEuMDgsMi4wNS40NiwzLjg5LDEuNjgsNS4xMSwzLjU5bDUuNDgsOC42M2MxLjIxLDEuOTEsMS41Myw0LjEsMS4wOCw2LjE1WiIvPgo8L3N2Zz4=" alt="アートデザインラボ"><h1>三茶パティオ 設営図</h1></a>
+    <span class="sub">コドモデパート in 三茶縁日2026 ｜ 単位 mm</span>
+    <span class="spacer"></span>
+    <div class="grp">
+      <button id="undo" class="ghost" title="元に戻す (⌘Z)">↶ 戻す</button>
+      <button id="redo" class="ghost" title="やり直す (⇧⌘Z)">↷ やり直す</button>
+    </div>
+    <div class="grp">
+      <label class="pill on" id="snapPill"><input type="checkbox" id="snap" checked> 50mm スナップ</label>
+      <label class="pill on" id="sizePill"><input type="checkbox" id="showSize" checked> 寸法表示</label>
+    </div>
+    <div class="grp">
+      <button id="zoomOut" title="縮小">−</button><button id="zoomFit">全体</button><button id="zoomIn" title="拡大">＋</button>
+    </div>
+    <div class="grp">
+      <button id="btnSave">保存データ</button>
+      <button id="btnPng">PNG</button>
+      <button id="btnPrint" class="primary">印刷</button>
+    </div>
+  </header>
+
+  <aside class="left">
+    <div class="card">
+      <h2>レイヤー</h2>
+      <div id="layers"></div>
+      <div id="carpetArea"></div>
+    </div>
+    <div class="card">
+      <h2>パーツ<small>ドラッグで配置</small></h2>
+      <div id="palette"></div>
+    </div>
+    <div class="card">
+      <h2>配置</h2>
+      <div class="row" style="margin-top:0">
+        <button id="btnSnap" class="primary">現在の配置を記録</button>
+      </div>
+      <div id="snapList"></div>
+      <div class="row">
+        <button id="btnReset">初期配置に戻す</button>
+        <button id="btnClear" class="danger">すべて片付ける</button>
+      </div>
+      <p class="hint">
+        什器をキャンバスへドラッグ。選択して <kbd>[</kbd> <kbd>]</kbd> で15°回転、<kbd>R</kbd> で90°、矢印キーで50mm移動（<kbd>⇧</kbd>で500mm）、<kbd>⌘D</kbd> 複製、<kbd>Delete</kbd> 削除。<br>
+        空白をドラッグで画面移動、ホイール／ピンチで拡大縮小。配置はこのブラウザに自動保存されます。
+      </p>
+    </div>
+  </aside>
+
+  <main>
+    <div class="canvas">
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="gridMinor" width="250" height="250" patternUnits="userSpaceOnUse">
+          <path d="M250 0H0V250" fill="none" stroke="var(--grid)" stroke-width="6"/>
+        </pattern>
+        <pattern id="gridMajor" width="1000" height="1000" patternUnits="userSpaceOnUse">
+          <rect width="1000" height="1000" fill="url(#gridMinor)"/>
+          <path d="M1000 0H0V1000" fill="none" stroke="var(--grid-major)" stroke-width="14"/>
+        </pattern>
+      </defs>
+      <g id="world">
+        <g id="bgLayer"></g>
+        <rect id="gridRect" fill="url(#gridMajor)"/>
+        <g id="floorLayer"></g>
+        <g id="itemLayer"></g>
+        <g id="selLayer"></g>
+      </g>
+      <g id="titleBlock"></g>
+    </svg>
+    <div id="zoomtag" class="mono"></div>
+    <div id="toast"></div>
+    </div>
+  </main>
+
+  <aside class="right">
+    <div class="card">
+    <h2>選択中</h2>
+    <div id="noSel">何も選択されていません。什器をクリックすると位置・角度を調整できます。</div>
+    <div id="inspector" hidden>
+      <div class="field"><label>種類</label><div id="iType" style="font-weight:500"></div></div>
+      <div class="field"><label>ラベル</label><input type="text" id="iLabel" placeholder="例：受付 / 素材棚A"></div>
+      <div class="field"><label>X (mm)</label><input type="number" id="iX" step="50"></div>
+      <div class="field"><label>Y (mm)</label><input type="number" id="iY" step="50"></div>
+      <div class="field"><label>角度</label><input type="number" id="iRot" step="15"></div>
+      <div id="sizeRow" hidden>
+        <div class="field" id="fW"><label>幅 (mm)</label><input type="number" id="iW" step="100"></div>
+        <div class="field" id="fH"><label>高さ (mm)</label><input type="number" id="iH" step="100"></div>
+        <div class="field" id="fH2"><label>先端 (mm)</label><input type="number" id="iH2" step="100"></div>
+        <div class="field" id="fD"><label>直径 (mm)</label><input type="number" id="iD" step="100"></div>
+        <div class="field"><label>面積</label><div id="iArea" class="mono"></div></div>
+      </div>
+      <div class="field"><label>色</label><div class="swatches" id="iColors"></div></div>
+      <div class="row">
+        <button id="iRotL">↺ 15°</button><button id="iRotR">↻ 15°</button><button id="iRot90">90°</button>
+      </div>
+      <div class="row">
+        <button id="iDup">複製</button><button id="iFront">前面へ</button><button id="iBack">背面へ</button>
+      </div>
+      <div class="row" id="chairRow"><button id="iChairs">周りに丸いすを4脚</button></div>
+      <div class="row"><button id="iDel" class="danger">削除</button></div>
+    </div>
+    </div>
+    <div class="card">
+    <h2>設定</h2>
+    <details>
+      <summary>図面枠</summary>
+      <div class="field"><label>図面名</label><input type="text" id="mTitle"></div>
+      <div class="field"><label>会場</label><input type="text" id="mVenue"></div>
+      <div class="field"><label>日付</label><input type="text" id="mDate"></div>
+      <div class="field"><label>作成</label><input type="text" id="mAuthor"></div>
+      <div class="field"><label>備考</label><input type="text" id="mNote"></div>
+    </details>
+    <details>
+      <summary>会場の形（頂点 x,y mm）</summary>
+      <p class="hint" style="margin:4px 0 6px">1行に1頂点。レイアウト図 p.14 の赤枠（底辺6,400・右辺6,000）を読み取った初期値です。ベンチ・柱・EVは「建物」レイヤー（既定ロック）。</p>
+      <textarea id="floorText"></textarea>
+      <div class="row"><button id="floorApply">形を更新</button><button id="floorReset">初期の形に戻す</button></div>
+    </details>
+    <details>
+      <summary>下敷き画像（図面をなぞる）</summary>
+      <p class="hint" style="margin:4px 0 6px">会場図の画像を読み込み、幅を実寸で指定すると下に重なります。</p>
+      <input type="file" id="bgFile" accept="image/*" style="font-size:11px">
+      <div class="range" style="margin-top:6px"><span>幅 mm</span><input type="number" id="bgW" step="100" value="20000" style="grid-column:2/4"></div>
+      <div class="range"><span>X</span><input type="number" id="bgX" step="100" value="0" style="grid-column:2/4"></div>
+      <div class="range"><span>Y</span><input type="number" id="bgY" step="100" value="0" style="grid-column:2/4"></div>
+      <div class="range"><span>透明度</span><input type="range" id="bgOp" min="0" max="1" step="0.05" value="0.5"><span id="bgOpV" class="mono">0.50</span></div>
+      <div class="row"><button id="bgClear">下敷きを外す</button></div>
+    </details>
+    </div>
+  </aside>
+</div>
+
+<dialog id="dlgSave">
+  <div class="dh"><h2>保存データ（JSON）</h2><button class="xbtn" id="saveClose" aria-label="閉じる">✕</button></div>
+  <div class="db">
+    <p>配置はこのブラウザに自動保存されています。別の端末へ持っていくときは、下のテキストをコピーして相手側に貼り付け「読み込む」を押してください。</p>
+    <textarea id="saveText" style="min-height:180px;width:100%"></textarea>
+  </div>
+  <div class="df">
+    <button id="saveCopy">コピー</button>
+    <button id="saveDl">ファイルに保存</button>
+    <button id="saveLoad" class="primary">貼り付けた内容を読み込む</button>
+  </div>
+</dialog>
+
+<script>
+(() => {
+'use strict';
+// ---------- 什器定義（mm） ----------
+const COLORS = {beige:'#E9DFC5', grey:'#B7B9B8', yellow:'#F2D14B', light:'#DEDFDD', bench:'#8FA79C', part:'#C8C2B6', sign:'#3F58A6', white:'#FFFFFF',
+  cBlue:'#7CB0D9', cGreen:'#45A356', cDeep:'#1D7A4E', cYellow:'#F1C22E'};
+const LAYERS = {building:'建物（EV・柱など）', carpet:'パンチカーペット', furniture:'什器', note:'メモ'};
+const DEFAULT_LAYERS = ()=>({building:{visible:true,locked:true},carpet:{visible:true,locked:false},furniture:{visible:true,locked:false},note:{visible:true,locked:false}});
+const TYPES = {
+  // 建物
+  ev:    {layer:'building', name:'エレベーター', shape:'rect', w:2700, h:2400, fill:'#E5E7EB', qty:0, dim:'2700×2400', resizable:true},
+  bench: {layer:'building', name:'ベンチ（固定）', shape:'rect', w:1800, h:400, fill:'#4F8FA8', qty:0, dim:'1800×400'},
+  storage:{layer:'building', name:'物品置き場', shape:'rect', w:1200, h:2400, fill:'#F3F4F6', qty:0, dim:'1200×2400', resizable:true},
+  pillar:{layer:'building', name:'丸柱', shape:'circle', d:1000, fill:'#D1D5DB', qty:0, dim:'φ1000', resizable:true},
+  pillarSq:{layer:'building', name:'角柱', shape:'rect', w:800, h:800, fill:'#CFCBC2', qty:0, dim:'800×800', resizable:true},
+  // 什器
+  shelf: {layer:'furniture', name:'横長たな', shape:'rect', w:1800, h:300, fill:COLORS.beige, qty:4, dim:'1800×300'},
+  donut: {layer:'furniture', name:'半円ドーナツ', shape:'halfring', d:1800, hole:900, fill:COLORS.beige, qty:4, dim:'φ1800（内φ900）'},
+  table: {layer:'furniture', name:'テーブル', shape:'rect', w:1600, h:650, fill:COLORS.grey, qty:4, dim:'1600×650'},
+  tableY:{layer:'furniture', name:'テーブル（黄）', shape:'rect', w:1600, h:650, fill:COLORS.yellow, qty:1, dim:'1600×650'},
+  roundTable:{layer:'furniture', name:'丸テーブル', shape:'circle', d:800, fill:COLORS.grey, qty:1, dim:'φ800'},
+  stool: {layer:'furniture', name:'丸いす', shape:'circle', d:340, fill:COLORS.light, qty:0, dim:'φ340'},
+  trash: {layer:'furniture', name:'ゴミ箱（ダンボール120）', shape:'rect', w:450, h:350, fill:'#C9A77A', qty:2, dim:'450×350'},
+  easel: {layer:'furniture', name:'パネルイーゼル', shape:'rect', w:420, h:450, fill:'#EFE6D2', qty:6, dim:'A2縦 420幅×奥行450'},
+  part:  {layer:'furniture', name:'パーティション', shape:'rect', w:1200, h:200, fill:COLORS.part, qty:0, dim:'1200×200'},
+  sign:  {layer:'furniture', name:'ポールサイン台', shape:'rect', w:600, h:900, fill:COLORS.sign, qty:0, dim:'600×900'},
+  // パンチカーペット（図面から読み取り・サイズ変更可）
+  cpGreen: {layer:'carpet', name:'カーペット 緑 円', shape:'circle', d:3000, fill:COLORS.cGreen, qty:0, dim:'φ3000', resizable:true, carpet:'緑'},
+  cpDeep:  {layer:'carpet', name:'カーペット 深緑 円', shape:'circle', d:2800, fill:COLORS.cDeep, qty:0, dim:'φ2800', resizable:true, carpet:'深緑'},
+  cpBlue:  {layer:'carpet', name:'カーペット 青 長円', shape:'stadium', w:3100, h:1900, fill:COLORS.cBlue, qty:0, dim:'3100×1900', resizable:true, carpet:'青'},
+  cpYellow:{layer:'carpet', name:'カーペット 黄 くさび', shape:'wedge', w:3000, h:1900, h2:600, fill:COLORS.cYellow, qty:0, dim:'3000×(1900→600)', resizable:true, carpet:'黄'},
+  cpRect:  {layer:'carpet', name:'カーペット 四角', shape:'rect', w:1820, h:1820, fill:COLORS.cBlue, qty:0, dim:'1820×1820', resizable:true, carpet:'任意'},
+  note:  {layer:'note', name:'メモ', shape:'text', w:1200, h:400, fill:'none', qty:0, dim:'文字だけ'},
+};
+const LAYER_ORDER=['carpet','furniture','note','building']; // 建物（柱・EV）は障害物なので最前面
+const dimsOf=i=>{ const t=TYPES[i.type]; return {w:i.w||t.w, h:i.h||t.h, h2:i.h2||t.h2, d:i.d||t.d, hole:t.hole}; };
+function areaOf(i){ const t=TYPES[i.type], m=dimsOf(i);
+  if(t.shape==='circle') return Math.PI*(m.d/2)**2; if(t.shape==='rect') return m.w*m.h;
+  if(t.shape==='stadium') return (m.w-m.h)*m.h+Math.PI*(m.h/2)**2; if(t.shape==='wedge') return (m.h+m.h2)/2*m.w;
+  if(t.shape==='halfring') return Math.PI*((m.d/2)**2-(m.hole/2)**2)/2; return 0; }
+const OLD_FLOOR_V1 = JSON.stringify([[0,3400],[0,7600],[6400,7600],[9200,5200],[5600,400],[2800,2800]]);
+const DEFAULT_FLOOR = [[0,3900],[0,8700],[6400,8600],[10800,5100],[7200,0],[3500,2300]];
+const DEFAULT_META = {title:'コドモデパート in 三茶縁日2026 設営図', venue:'三茶パティオ（キャロットタワー地下1階・噴水前）', date:'2026-11-28（土）・29（日）', author:'アートデザインラボ', note:'通路幅4mを確保'};
+// 固定物（建物レイヤー）：レイアウト図 p.14 ③パティオから読み取り（EV・丸柱7本・通路沿いベンチ5台・物品置き場）
+const FIXED = ()=>[
+  {type:'ev',x:-1200,y:2560,rot:0,label:'EV'},
+  {type:'pillar',x:2930,y:3230,rot:0,label:'柱'}, {type:'pillar',x:6750,y:8560,rot:0,label:'柱'},
+  {type:'pillar',x:11590,y:-2910,rot:0,label:'柱'}, {type:'pillar',x:16170,y:3760,rot:0,label:'柱'}, {type:'pillar',x:20760,y:10830,rot:0,label:'柱'},
+  {type:'pillar',x:6750,y:-9710,rot:0,label:'柱'}, {type:'pillar',x:10570,y:14290,rot:0,label:'柱'},
+  {type:'bench',x:10570,y:-4910,rot:63,label:''}, {type:'bench',x:12860,y:-1440,rot:63,label:''}, {type:'bench',x:14390,y:1090,rot:63,label:''},
+  {type:'bench',x:15540,y:2960,rot:63,label:''}, {type:'bench',x:17700,y:5360,rot:63,label:''},
+  {type:'storage',x:8350,y:-8550,rot:63,label:'物品置き場'},
+];
+// 11/25 追加分（ゴミ箱2・イーゼル6）：会場下側の外に仮置き
+const EXTRA_V4 = ()=>[
+  {type:'trash',x:7300,y:9500,rot:0,label:'ゴミ'}, {type:'trash',x:8000,y:9500,rot:0,label:'ゴミ'},
+  ...[0,1,2,3,4,5].map(k=>({type:'easel',x:600+k*700,y:9500,rot:0,label:`P${k+1}`})),
+];
+function defaultItems(){
+  let id=1; const it=[];
+  const add=(type,x,y,rot=0,label='')=>it.push({id:id++,type,x,y,rot,label});
+  FIXED().forEach(f=>it.push({id:id++,...f}));
+  // パンチカーペット（什器の下）
+  add('cpDeep',3200,5200); add('cpDeep',6300,3300);
+  add('cpGreen',1700,7000); add('cpBlue',8400,5600,-50); add('cpYellow',2300,2900,-30);
+  // 作業テーブル：半円2枚で大丸机 ×2
+  add('donut',3200,5200,0); add('donut',3200,5200,180);
+  add('donut',6300,3300,0); add('donut',6300,3300,180);
+  // 棚：左辺沿い
+  add('shelf',350,4900,90,'素材棚'); add('shelf',350,6800,90,'素材棚');
+  add('shelf',2200,8300,0,'素材棚'); add('shelf',4100,8300,0,'素材棚');
+  // テーブル：6,000辺に沿って
+  const ang=-50; const sx=8100, sy=6400, dx=Math.cos(ang*Math.PI/180), dy=Math.sin(ang*Math.PI/180);
+  for(let i=0;i<4;i++){ add('table', Math.round(sx+dx*i*1700), Math.round(sy+dy*i*1700), ang, i===0?'受付':''); }
+  add('tableY',1900,3000,-30,'プレゼント');
+  add('roundTable',5400,7300,0,'');
+  EXTRA_V4().forEach(f=>it.push({id:id++,...f}));
+  // 丸いす：大丸机の周り
+  [[3200,5200],[6300,3300]].forEach(([cx,cy])=>{ for(let k=0;k<6;k++){ const a=k*60*Math.PI/180; add('stool',Math.round(cx+Math.cos(a)*1250),Math.round(cy+Math.sin(a)*1250)); } });
+  return it;
+}
+
+// ---------- 状態 ----------
+const LS='sancha-patio-layout-v1';
+let state = {items:defaultItems(), floor:DEFAULT_FLOOR.map(p=>p.slice()), meta:{...DEFAULT_META}, qty:{}, bg:null, layers:DEFAULT_LAYERS(), fixedV2:true, snapV3:true, extraV4:true, snapshots:[]};
+let nextId = 1000;
+let sel = null;
+let hist=[], future=[];
+let view = {k:0.06, px:40, py:40};
+const $ = s=>document.querySelector(s);
+const svg=$('#svg'), world=$('#world'), itemLayer=$('#itemLayer'), selLayer=$('#selLayer'), floorLayer=$('#floorLayer'), bgLayer=$('#bgLayer'), gridRect=$('#gridRect'), tb=$('#titleBlock');
+const NS='http://www.w3.org/2000/svg';
+const el=(n,a={},parent)=>{const e=document.createElementNS(NS,n); for(const k in a) e.setAttribute(k,a[k]); if(parent) parent.appendChild(e); return e;};
+const fmt=n=>Math.round(n).toLocaleString('ja-JP');
+const toast=m=>{const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),1600);};
+
+function load(){
+  try{ const s=JSON.parse(localStorage.getItem(LS)); if(s&&s.items){ state={...state,...s}; state.layers={...DEFAULT_LAYERS(),...(s.layers||{})}; if(!s.fixedV2){ state.items=state.items.filter(i=>TYPES[i.type]&&TYPES[i.type].layer!=='building'); let id=5000; FIXED().forEach(f=>state.items.push({id:id++,...f})); if(JSON.stringify(state.floor)===OLD_FLOOR_V1) state.floor=DEFAULT_FLOOR.map(p=>p.slice()); state.fixedV2=true; }
+    state.items=state.items.filter(i=>TYPES[i.type]);
+    state.snapshots=Array.isArray(s.snapshots)?s.snapshots:[];
+    if(!s.snapV3){ state.snapshots.unshift({name:'自動記録（丸テーブル追加前）',at:Date.now(),items:JSON.parse(JSON.stringify(state.items)),floor:JSON.parse(JSON.stringify(state.floor))}); state.snapV3=true; }
+    if(!state.items.some(i=>i.type==='roundTable')) state.items.push({id:6000,type:'roundTable',x:5400,y:7300,rot:0,label:''});
+    if(!s.extraV4){ let id=7000; EXTRA_V4().forEach(f=>state.items.push({id:id++,...f})); state.extraV4=true; } } }catch(e){}
+  nextId = Math.max(1000, ...state.items.map(i=>i.id+1));
+}
+function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
+function snapshot(){ return JSON.stringify({items:state.items,floor:state.floor}); }
+function commit(){ hist.push(snapshot()); if(hist.length>60) hist.shift(); future=[]; save(); updateUndo(); }
+function restore(s){ const o=JSON.parse(s); state.items=o.items; state.floor=o.floor; sel=null; save(); renderAll(); }
+function undo(){ if(!hist.length) return; future.push(snapshot()); restore(hist.pop()); updateUndo(); }
+function redo(){ if(!future.length) return; hist.push(snapshot()); restore(future.pop()); updateUndo(); }
+function updateUndo(){ $('#undo').disabled=!hist.length; $('#redo').disabled=!future.length; }
+const qtyOf=t=>state.qty[t]!==undefined?state.qty[t]:TYPES[t].qty;
+
+// ---------- 座標 ----------
+function clientToWorld(cx,cy){ const r=svg.getBoundingClientRect(); return {x:(cx-r.left-view.px)/view.k, y:(cy-r.top-view.py)/view.k}; }
+function applyView(){ world.setAttribute('transform',`translate(${view.px} ${view.py}) scale(${view.k})`); $('#zoomtag').textContent=`画面上の縮尺 1 : ${Math.round((96/25.4)/view.k)}`; renderTitleBlock(); }
+function fitView(){
+  const r=svg.getBoundingClientRect(); const b=bounds(); const pad=1200;
+  const w=b.maxX-b.minX+pad*2, h=b.maxY-b.minY+pad*2;
+  view.k=Math.min((r.width-20)/w, (r.height-20-130)/h);
+  view.px=(r.width-w*view.k)/2-(b.minX-pad)*view.k; view.py=(r.height-130-h*view.k)/2-(b.minY-pad)*view.k;
+  applyView();
+}
+function bounds(){
+  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  state.floor.forEach(([x,y])=>{minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);});
+  const fx0=minX,fy0=minY,fx1=maxX,fy1=maxY, M=4000;
+  state.items.forEach(i=>{ if(TYPES[i.type].layer==='building' && isFinite(fx0) && (i.x<fx0-M||i.x>fx1+M||i.y<fy0-M||i.y>fy1+M)) return;
+    const r=radiusOf(i); minX=Math.min(minX,i.x-r);minY=Math.min(minY,i.y-r);maxX=Math.max(maxX,i.x+r);maxY=Math.max(maxY,i.y+r);});
+  if(!isFinite(minX)) return {minX:0,minY:0,maxX:10000,maxY:8000};
+  return {minX,minY,maxX,maxY};
+}
+function radiusOf(i){ const t=TYPES[i.type], m=dimsOf(i); if(t.shape==='circle'||t.shape==='halfring') return m.d/2; return Math.hypot(m.w,m.h)/2; }
+
+// ---------- 描画 ----------
+function shapeNode(i, g){
+  const t=TYPES[i.type]; const fill=i.fill||t.fill; const m=dimsOf(i); const sw=t.layer==='carpet'?0:14;
+  if(t.shape==='rect'){
+    const a={x:-m.w/2,y:-m.h/2,width:m.w,height:m.h,fill,stroke:'var(--ink)','stroke-width':sw};
+    if(t.layer==='building'){ a['stroke-width']=20; a.stroke='var(--ink-2)'; if(i.type!=='bench') a['stroke-dasharray']='120 80'; }
+    el('rect',a,g);
+  } else if(t.shape==='circle'){
+    const a={r:m.d/2,fill,stroke:'var(--ink)','stroke-width':sw};
+    if(t.layer==='building'){ a['stroke-width']=20; a['stroke-dasharray']='120 80'; a.stroke='var(--ink-2)'; }
+    el('circle',a,g);
+  } else if(t.shape==='stadium'){
+    el('rect',{x:-m.w/2,y:-m.h/2,width:m.w,height:m.h,rx:m.h/2,ry:m.h/2,fill},g);
+  } else if(t.shape==='wedge'){
+    el('polygon',{points:`${-m.w/2},${-m.h/2} ${m.w/2},${-m.h2/2} ${m.w/2},${m.h2/2} ${-m.w/2},${m.h/2}`,fill},g);
+  } else if(t.shape==='halfring'){
+    const R=m.d/2, r=m.hole/2;
+    el('path',{d:`M${-R} 0 A${R} ${R} 0 0 1 ${R} 0 L${r} 0 A${r} ${r} 0 0 0 ${-r} 0 Z`,fill,stroke:'var(--ink)','stroke-width':14,'stroke-linejoin':'round'},g);
+  } else if(t.shape==='text'){
+    el('rect',{x:-t.w/2,y:-t.h/2,width:t.w,height:t.h,fill:'none',stroke:'var(--ink-2)','stroke-width':10,'stroke-dasharray':'60 60'},g);
+  }
+}
+function labelNodes(i,g0){
+  const t=TYPES[i.type]; const showSize=$('#showSize').checked;
+  const rr=((i.rot||0)%360+360)%360; const flip=rr>90&&rr<270;
+  const cy0 = t.shape==='halfring' ? -(t.d/2+t.hole/2)/2 : 0;
+  const g = flip ? el('g',{transform:`translate(0 ${cy0}) rotate(180) translate(0 ${-cy0})`},g0) : g0;
+  const isText=t.shape==='text';
+  let cy = t.shape==='halfring' ? -(t.d/2+t.hole/2)/2 : 0;
+  const lbl=i.label||(isText?'メモ':'');
+  const isBld=t.layer==='building';
+  if(lbl){ const tx=el('text',{x:0,y:cy+(showSize&&!isText&&!isBld?-40:60),'text-anchor':'middle','font-size':isText?150:(isBld&&i.type==='ev')?260:isBld?130:130,'font-weight':600,fill:'var(--ink)'},g); tx.textContent=lbl; }
+  if(showSize&&!isText&&!isBld&&i.type!=='stool'&&i.type!=='trash'&&i.type!=='easel'){ const m=dimsOf(i); const sz=el('text',{class:'size',x:0,y:cy+(lbl?130:40),'text-anchor':'middle','font-size':95,fill:t.layer==='carpet'?'rgba(0,0,0,.55)':'var(--ink-2)'},g);
+    sz.textContent=(t.shape==='circle'||t.shape==='halfring')?`φ${m.d}`:t.shape==='wedge'?`${m.w}×${m.h}→${m.h2}`:`${m.w}×${m.h}`;
+    if(t.layer==='carpet'){ sz.textContent+=`　${(areaOf(i)/1e6).toFixed(2)}㎡`; } }
+}
+function renderItems(){
+  itemLayer.innerHTML='';
+  const ordered=[...state.items].sort((a,b)=>LAYER_ORDER.indexOf(TYPES[a.type].layer)-LAYER_ORDER.indexOf(TYPES[b.type].layer));
+  ordered.forEach(i=>{
+    const L=state.layers[TYPES[i.type].layer]; if(L&&!L.visible) return;
+    const g=el('g',{class:'item','data-id':i.id,transform:`translate(${i.x} ${i.y}) rotate(${i.rot||0})`},itemLayer);
+    if(L&&L.locked){ g.style.pointerEvents='none'; g.style.cursor='default'; }
+    shapeNode(i,g); labelNodes(i,g);
+  });
+  if(sel!=null){ const si=state.items.find(o=>o.id===sel); if(si){ const L=state.layers[TYPES[si.type].layer]; if(L&&(!L.visible||L.locked)) sel=null; } }
+  renderSel(); renderPaletteCounts(); renderLayers();
+}
+function renderSel(){
+  selLayer.innerHTML='';
+  const i=state.items.find(o=>o.id===sel); const insp=$('#inspector'), no=$('#noSel');
+  if(!i){ insp.hidden=true; no.hidden=false; return; }
+  insp.hidden=false; no.hidden=true;
+  const t=TYPES[i.type]; const g=el('g',{transform:`translate(${i.x} ${i.y}) rotate(${i.rot||0})`},selLayer);
+  const m=dimsOf(i); let w=m.w,h=m.h,oy=0; if(t.shape==='circle'||t.shape==='halfring'){ w=m.d; h=t.shape==='halfring'?m.d/2:m.d; oy=t.shape==='halfring'?-m.d/4:0; }
+  el('rect',{x:-w/2-60,y:oy-h/2-60,width:w+120,height:h+120,fill:'none',stroke:'var(--accent)','stroke-width':3/view.k,'stroke-dasharray':`${8/view.k} ${6/view.k}`},g);
+  const hy=oy-h/2-60-28/view.k;
+  el('line',{x1:0,y1:oy-h/2-60,x2:0,y2:hy,stroke:'var(--accent)','stroke-width':2/view.k},g);
+  el('circle',{class:'handle',cx:0,cy:hy,r:7/view.k,fill:'var(--accent)',stroke:'var(--paper)','stroke-width':2/view.k,'data-handle':'rot'},g);
+  // inspector
+  $('#iType').textContent=`${t.name}　${t.dim}`;
+  const sz=$('#sizeRow'); sz.hidden=!t.resizable;
+  if(t.resizable){ const isC=t.shape==='circle'; $('#fW').hidden=isC; $('#fH').hidden=isC; $('#fH2').hidden=t.shape!=='wedge'; $('#fD').hidden=!isC;
+    $('#iW').value=m.w||''; $('#iH').value=m.h||''; $('#iH2').value=m.h2||''; $('#iD').value=m.d||''; $('#iArea').textContent=(areaOf(i)/1e6).toFixed(2)+' ㎡'; }
+  if(document.activeElement!==$('#iLabel')) $('#iLabel').value=i.label||'';
+  $('#iX').value=Math.round(i.x); $('#iY').value=Math.round(i.y); $('#iRot').value=Math.round(i.rot||0);
+  const cs=$('#iColors'); cs.innerHTML='';
+  Object.entries(COLORS).forEach(([k,v])=>{ const b=document.createElement('button'); b.className='sw'+((i.fill||t.fill)===v?' on':''); b.style.background=v; b.title=k; b.onclick=()=>{i.fill=v; commit(); renderItems();}; cs.appendChild(b); });
+  $('#chairRow').hidden = !(t.shape==='rect' && t.layer==='furniture' && i.type!=='sign' && i.type!=='part');
+}
+function renderFloor(){
+  floorLayer.innerHTML='';
+  const pts=state.floor; if(pts.length<3) return;
+  el('path',{d:'M'+pts.map(p=>p.join(' ')).join('L')+'Z',fill:'var(--floor-fill)',stroke:'var(--floor)','stroke-width':40,'stroke-linejoin':'round'},floorLayer);
+  // 寸法ラベル
+  for(let i=0;i<pts.length;i++){
+    const a=pts[i], b=pts[(i+1)%pts.length]; const len=Math.hypot(b[0]-a[0],b[1]-a[1]); if(len<500) continue;
+    const mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2; let ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI; if(ang>90||ang<-90) ang+=180;
+    // 外側へオフセット（多角形の重心と反対方向）
+    const cx=pts.reduce((s,p)=>s+p[0],0)/pts.length, cy=pts.reduce((s,p)=>s+p[1],0)/pts.length;
+    let nx=-(b[1]-a[1])/len, ny=(b[0]-a[0])/len; if((mx-cx)*nx+(my-cy)*ny<0){nx=-nx;ny=-ny;}
+    const tx=el('text',{class:'dimlabel',x:mx+nx*260,y:my+ny*260,'font-size':170,'text-anchor':'middle','dominant-baseline':'middle',transform:`rotate(${ang} ${mx+nx*260} ${my+ny*260})`},floorLayer);
+    tx.textContent=fmt(Math.round(len/100)*100);
+  }
+  const b=bounds(); gridRect.setAttribute('x',Math.floor((b.minX-6000)/1000)*1000); gridRect.setAttribute('y',Math.floor((b.minY-6000)/1000)*1000);
+  gridRect.setAttribute('width',(b.maxX-b.minX)+14000); gridRect.setAttribute('height',(b.maxY-b.minY)+14000);
+}
+function renderBg(){
+  bgLayer.innerHTML=''; const bg=state.bg; if(!bg||!bg.src) return;
+  el('image',{href:bg.src,x:bg.x||0,y:bg.y||0,width:bg.w||20000,height:(bg.w||20000)/(bg.ratio||1.414),opacity:bg.op??0.5,preserveAspectRatio:'none'},bgLayer);
+}
+function renderTitleBlock(){
+  tb.innerHTML=''; const r=svg.getBoundingClientRect(); const W=372,H=136; const x=r.width-W-12, y=r.height-H-12; const m=state.meta;
+  const g=el('g',{transform:`translate(${x} ${y})`},tb);
+  el('rect',{width:W,height:H,rx:8,fill:'#fff',stroke:'var(--line-2)','stroke-width':1},g);
+  el('line',{x1:0,y1:34,x2:W,y2:34,stroke:'var(--line)','stroke-width':1},g);
+  const T=(tx,x,y,size,cls,fill)=>{const t=el('text',{class:cls||'tb',x,y,'font-size':size,fill:fill||'var(--ink)'},g); t.textContent=tx; return t;};
+  T(m.title||'',12,23,12.5,'tb tb-h');
+  const rows=[['会場',m.venue],['日付',m.date],['作成',m.author],['備考',m.note],['凡例','ベージュ=たな・大丸机　灰=テーブル　黄=指定　薄灰=いす　色面=カーペット　破線=柱・EV']];
+  rows.forEach(([k,v],i)=>{ T(k,10,52+i*15,9.5,'tb','var(--ink-2)'); const t=T(v||'',44,52+i*15,9.5); if((v||'').length>36) t.setAttribute('font-size',7.5); });
+  const fur=state.items.filter(i=>TYPES[i.type].layer==='furniture').length, cp=state.items.filter(i=>TYPES[i.type].layer==='carpet').length;
+  const cpA=state.items.filter(i=>TYPES[i.type].layer==='carpet').reduce((a,i)=>a+areaOf(i),0)/1e6;
+  T(`什器 ${fur} 点 ／ カーペット ${cp} 枚 ${cpA.toFixed(1)}㎡ ／ 単位 mm`,W-10,H-7,8.5,'tb mono','var(--ink-2)').setAttribute('text-anchor','end');
+}
+function renderLayers(){
+  const box=$('#layers'); box.innerHTML='';
+  const tot={}; state.items.forEach(i=>{ const t=TYPES[i.type]; if(t.layer==='carpet'){ tot[t.carpet]=(tot[t.carpet]||0)+areaOf(i); } });
+  LAYER_ORDER.forEach(k=>{ const L=state.layers[k]; const n=state.items.filter(i=>TYPES[i.type].layer===k).length;
+    const d=document.createElement('div'); d.className='layer';
+    d.innerHTML=`<span class="lname">${LAYERS[k]}</span><span class="lcnt mono">${n}</span>
+      <button type="button" class="tg ${L.visible?'on':''}" data-l="${k}" data-k="visible" title="表示／非表示">表示</button>
+      <button type="button" class="tg ${L.locked?'on':''}" data-l="${k}" data-k="locked" title="ロック（選択・移動できなくする）">ロック</button>`;
+    box.appendChild(d); });
+  box.querySelectorAll('.tg').forEach(c=>c.addEventListener('click',e=>{ const b=e.currentTarget; state.layers[b.dataset.l][b.dataset.k]=!state.layers[b.dataset.l][b.dataset.k]; save(); renderItems(); }));
+  const a=$('#carpetArea'); const keys=Object.keys(tot);
+  a.innerHTML = keys.length ? '<div class="eyebrow" style="margin-top:12px">カーペット面積</div>'+keys.map(k=>`<div class="arow"><span>${k}</span><span class="mono">${(tot[k]/1e6).toFixed(2)} ㎡</span></div>`).join('')+`<div class="arow total"><span>合計</span><span class="mono">${(Object.values(tot).reduce((s,v)=>s+v,0)/1e6).toFixed(2)} ㎡</span></div><p class="note">面積は外形の実寸。ロール幅（910／1,820mm）での取り都合は別途見込んでください。</p>` : '';
+}
+function renderPalette(){
+  const p=$('#palette'); p.innerHTML='';
+  let curLayer=null;
+  Object.entries(TYPES).forEach(([k,t])=>{
+    if(t.layer!==curLayer){ curLayer=t.layer; const h=document.createElement('div'); h.className='eyebrow'; h.textContent=LAYERS[t.layer]; p.appendChild(h); }
+    const d=document.createElement('div'); d.className='part'; d.draggable=false; d.dataset.type=k;
+    const pv=document.createElementNS(NS,'svg'); pv.setAttribute('viewBox','-1000 -1000 2000 2000'); pv.setAttribute('preserveAspectRatio','xMidYMid meet');
+    const g=el('g',{},pv); const pseudo={type:k,fill:t.fill};
+    if(t.shape==='halfring') g.setAttribute('transform','translate(0 450)');
+    if(t.layer==='carpet') g.setAttribute('transform','scale(0.6)');
+    shapeNode(pseudo,g); if(t.layer!=='carpet'&&g.firstChild) g.firstChild.setAttribute('stroke-width',40);
+    d.appendChild(pv);
+    const txt=document.createElement('div'); txt.innerHTML=`<div class="nm">${t.name}</div><div class="dim mono">${t.dim}</div>`; d.appendChild(txt);
+    const c=document.createElement('div'); c.className='cnt'; c.dataset.cnt=k; d.appendChild(c);
+    d.addEventListener('pointerdown',startPaletteDrag);
+    p.appendChild(d);
+  });
+  renderPaletteCounts();
+}
+function renderPaletteCounts(){
+  document.querySelectorAll('.cnt').forEach(c=>{
+    const k=c.dataset.cnt; const n=state.items.filter(i=>i.type===k).length; const q=qtyOf(k);
+    if(q>0){ c.innerHTML=`<span class="badge ${n>q?'over':''}">${n} / <input type="number" min="0" value="${q}" title="規定数（クリックで変更）" aria-label="規定数"></span>`;
+      c.querySelector('input').addEventListener('change',e=>{state.qty[k]=+e.target.value||0; save(); renderPaletteCounts();});
+      c.querySelector('input').addEventListener('pointerdown',e=>e.stopPropagation());
+    } else { c.innerHTML=`<span class="badge">${n}</span>`; }
+  });
+}
+function renderSnaps(){
+  const box=$('#snapList'); if(!box) return; box.innerHTML='';
+  (state.snapshots||[]).forEach((sn,idx)=>{
+    const d=document.createElement('div'); d.className='snap';
+    const dt=new Date(sn.at); const when=`${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+    const info=document.createElement('div'); info.className='sn'; const b=document.createElement('b'); b.textContent=sn.name; const sp=document.createElement('span'); sp.textContent=`${when}・${sn.items.length}点`; info.append(b,sp);
+    const r=document.createElement('button'); r.textContent='復元'; r.onclick=()=>{ if(!confirm(`「${sn.name}」を復元しますか？（現在の配置は「戻す」で復元できます）`)) return; hist.push(snapshot()); state.items=JSON.parse(JSON.stringify(sn.items)); state.floor=JSON.parse(JSON.stringify(sn.floor)); nextId=Math.max(1000,...state.items.map(i=>i.id+1)); sel=null; save(); renderAll(); fitView(); toast('復元しました'); };
+    const x=document.createElement('button'); x.textContent='削除'; x.className='danger'; x.onclick=()=>{ if(!confirm(`記録「${sn.name}」を削除しますか？`)) return; state.snapshots.splice(idx,1); save(); renderSnaps(); };
+    d.append(info,r,x); box.appendChild(d);
+  });
+}
+function renderAll(){ renderSnaps(); renderBg(); renderFloor(); renderItems(); renderTitleBlock(); $('#floorText').value=state.floor.map(p=>p.join(', ')).join('\n'); updateUndo(); }
+
+// ---------- 操作 ----------
+const snapOn=()=>$('#snap').checked; const snap=v=>snapOn()?Math.round(v/50)*50:Math.round(v);
+let drag=null; // {mode:'move'|'rot'|'pan'|'new', ...}
+let pointers=new Map(); let pinch=null;
+
+function addItem(type,x,y,rot=0,label=''){ if(!label&&type==='ev') label='EV'; if(!label&&(type==='pillar'||type==='pillarSq')) label='柱'; const it={id:nextId++,type,x:snap(x),y:snap(y),rot,label}; state.items.push(it); sel=it.id; return it; }
+
+function startPaletteDrag(e){
+  if(e.target.tagName==='INPUT') return;
+  e.preventDefault(); const type=e.currentTarget.dataset.type;
+  const ghost=e.currentTarget.cloneNode(true); ghost.style.cssText='position:fixed;pointer-events:none;opacity:.7;width:200px;background:var(--panel);border:1px solid var(--panel-line);border-radius:8px;z-index:9';
+  document.body.appendChild(ghost);
+  const mv=ev=>{ ghost.style.left=(ev.clientX-30)+'px'; ghost.style.top=(ev.clientY-20)+'px'; };
+  mv(e);
+  const up=ev=>{ document.removeEventListener('pointermove',mv); document.removeEventListener('pointerup',up); ghost.remove();
+    const r=svg.getBoundingClientRect(); if(ev.clientX>=r.left&&ev.clientX<=r.right&&ev.clientY>=r.top&&ev.clientY<=r.bottom){ const w=clientToWorld(ev.clientX,ev.clientY); state.layers[TYPES[type].layer].visible=true; addItem(type,w.x,w.y); commit(); renderItems(); }
+    else { // タップのみ → 中央に置く
+      if(Math.hypot(ev.clientX-e.clientX,ev.clientY-e.clientY)<6){ const c=clientToWorld(r.left+r.width/2,r.top+r.height/2); addItem(type,c.x,c.y); commit(); renderItems(); toast(TYPES[type].name+' を中央に置きました'); }
+    }
+  };
+  document.addEventListener('pointermove',mv); document.addEventListener('pointerup',up);
+}
+
+svg.addEventListener('pointerdown',e=>{
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pointers.size===2){ const [a,b]=[...pointers.values()]; pinch={d:Math.hypot(a.x-b.x,a.y-b.y),k:view.k,cx:(a.x+b.x)/2,cy:(a.y+b.y)/2,px:view.px,py:view.py}; drag=null; return; }
+  svg.setPointerCapture(e.pointerId);
+  const h=e.target.closest('[data-handle]'); const g=e.target.closest('.item');
+  if(h&&sel!=null){ const i=state.items.find(o=>o.id===sel); drag={mode:'rot',item:i,start:snapshot(),rot0:i.rot||0}; return; }
+  if(g){ const id=+g.dataset.id; const i=state.items.find(o=>o.id===id); sel=id; renderSel();
+    const w=clientToWorld(e.clientX,e.clientY); drag={mode:'move',item:i,dx:i.x-w.x,dy:i.y-w.y,start:snapshot(),moved:false}; return; }
+  sel=null; renderSel(); drag={mode:'pan',x0:e.clientX,y0:e.clientY,px:view.px,py:view.py}; svg.classList.add('panning');
+});
+svg.addEventListener('pointermove',e=>{
+  if(pointers.has(e.pointerId)) pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch&&pointers.size===2){ const [a,b]=[...pointers.values()]; const d=Math.hypot(a.x-b.x,a.y-b.y); const k=Math.max(0.008,Math.min(1.5,pinch.k*d/pinch.d));
+    const r=svg.getBoundingClientRect(); const cx=(a.x+b.x)/2-r.left, cy=(a.y+b.y)/2-r.top; const ocx=pinch.cx-r.left, ocy=pinch.cy-r.top;
+    view.px=cx-(ocx-pinch.px)*(k/pinch.k); view.py=cy-(ocy-pinch.py)*(k/pinch.k); view.k=k; applyView(); renderSel(); return; }
+  if(!drag) return;
+  if(drag.mode==='pan'){ view.px=drag.px+(e.clientX-drag.x0); view.py=drag.py+(e.clientY-drag.y0); applyView(); return; }
+  const w=clientToWorld(e.clientX,e.clientY);
+  if(drag.mode==='move'){ drag.item.x=snap(w.x+drag.dx); drag.item.y=snap(w.y+drag.dy); drag.moved=true; updateItemNode(drag.item); }
+  if(drag.mode==='rot'){ const i=drag.item; let a=Math.atan2(w.y-i.y,w.x-i.x)*180/Math.PI+90; a=e.shiftKey?Math.round(a):Math.round(a/15)*15; i.rot=((a%360)+360)%360; updateItemNode(i); }
+});
+const endDrag=e=>{ pointers.delete(e.pointerId); if(pointers.size<2) pinch=null; svg.classList.remove('panning');
+  if(!drag) return; if((drag.mode==='move'&&drag.moved)||drag.mode==='rot'){ hist.push(drag.start); if(hist.length>60) hist.shift(); future=[]; save(); updateUndo(); renderItems(); } drag=null; };
+svg.addEventListener('pointerup',endDrag); svg.addEventListener('pointercancel',endDrag);
+function updateItemNode(i){ const g=itemLayer.querySelector(`[data-id="${i.id}"]`); if(g) g.setAttribute('transform',`translate(${i.x} ${i.y}) rotate(${i.rot||0})`); renderSel(); }
+
+svg.addEventListener('wheel',e=>{ e.preventDefault(); const r=svg.getBoundingClientRect(); const cx=e.clientX-r.left, cy=e.clientY-r.top;
+  const f=Math.exp(-e.deltaY*0.0015); const k=Math.max(0.008,Math.min(1.5,view.k*f)); view.px=cx-(cx-view.px)*(k/view.k); view.py=cy-(cy-view.py)*(k/view.k); view.k=k; applyView(); renderSel(); },{passive:false});
+function zoomBy(f){ const r=svg.getBoundingClientRect(); const cx=r.width/2, cy=r.height/2; const k=Math.max(0.008,Math.min(1.5,view.k*f)); view.px=cx-(cx-view.px)*(k/view.k); view.py=cy-(cy-view.py)*(k/view.k); view.k=k; applyView(); renderSel(); }
+$('#zoomIn').onclick=()=>zoomBy(1.25); $('#zoomOut').onclick=()=>zoomBy(0.8); $('#zoomFit').onclick=fitView;
+
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input,textarea')) return;
+  const meta=e.metaKey||e.ctrlKey;
+  if(meta&&e.key.toLowerCase()==='z'){ e.preventDefault(); e.shiftKey?redo():undo(); return; }
+  if(meta&&e.key.toLowerCase()==='y'){ e.preventDefault(); redo(); return; }
+  const i=state.items.find(o=>o.id===sel); if(!i) return;
+  const step=e.shiftKey?500:50; let done=true;
+  switch(e.key){
+    case 'Delete': case 'Backspace': delSel(); return;
+    case 'ArrowLeft': i.x-=step; break; case 'ArrowRight': i.x+=step; break; case 'ArrowUp': i.y-=step; break; case 'ArrowDown': i.y+=step; break;
+    case '[': i.rot=((i.rot||0)-15+360)%360; break; case ']': i.rot=((i.rot||0)+15)%360; break;
+    case 'r': case 'R': i.rot=((i.rot||0)+90)%360; break;
+    case 'd': case 'D': if(meta){ dupSel(); return; } done=false; break;
+    case 'Escape': sel=null; renderSel(); return;
+    default: done=false;
+  }
+  if(done){ e.preventDefault(); commit(); renderItems(); }
+});
+function delSel(){ const k=state.items.findIndex(o=>o.id===sel); if(k<0) return; state.items.splice(k,1); sel=null; commit(); renderItems(); }
+function dupSel(){ const i=state.items.find(o=>o.id===sel); if(!i) return; const n={...i,id:nextId++,x:i.x+400,y:i.y+400}; state.items.push(n); sel=n.id; commit(); renderItems(); }
+$('#iDel').onclick=delSel; $('#iDup').onclick=dupSel;
+$('#iRotL').onclick=()=>rotSel(-15); $('#iRotR').onclick=()=>rotSel(15); $('#iRot90').onclick=()=>rotSel(90);
+function rotSel(d){ const i=state.items.find(o=>o.id===sel); if(!i) return; i.rot=(((i.rot||0)+d)%360+360)%360; commit(); renderItems(); }
+$('#iFront').onclick=()=>{ const k=state.items.findIndex(o=>o.id===sel); if(k<0) return; const [i]=state.items.splice(k,1); state.items.push(i); commit(); renderItems(); };
+$('#iBack').onclick=()=>{ const k=state.items.findIndex(o=>o.id===sel); if(k<0) return; const [i]=state.items.splice(k,1); state.items.unshift(i); commit(); renderItems(); };
+$('#iChairs').onclick=()=>{ const i=state.items.find(o=>o.id===sel); if(!i) return; const t=TYPES[i.type]; const a=(i.rot||0)*Math.PI/180; const keep=i.id;
+  const m=dimsOf(i); const off=m.h/2+170+120; [[-m.w/4,-off],[m.w/4,-off],[-m.w/4,off],[m.w/4,off]].forEach(([lx,ly])=>{ const x=i.x+lx*Math.cos(a)-ly*Math.sin(a), y=i.y+lx*Math.sin(a)+ly*Math.cos(a); addItem('stool',x,y); });
+  sel=keep; commit(); renderItems(); };
+['iX','iY','iRot'].forEach(id=>$('#'+id).addEventListener('change',e=>{ const i=state.items.find(o=>o.id===sel); if(!i) return; const v=+e.target.value||0; if(id==='iX') i.x=v; if(id==='iY') i.y=v; if(id==='iRot') i.rot=((v%360)+360)%360; commit(); renderItems(); }));
+[['iW','w'],['iH','h'],['iH2','h2'],['iD','d']].forEach(([id,k])=>$('#'+id).addEventListener('change',e=>{ const i=state.items.find(o=>o.id===sel); if(!i) return; const v=Math.max(100,+e.target.value||0); i[k]=v; commit(); renderItems(); }));
+$('#iLabel').addEventListener('input',e=>{ const i=state.items.find(o=>o.id===sel); if(!i) return; i.label=e.target.value; save(); renderItems(); });
+$('#iLabel').addEventListener('change',()=>commit());
+$('#undo').onclick=undo; $('#redo').onclick=redo;
+$('#snap').onchange=()=>{ $('#snapPill').classList.toggle('on',$('#snap').checked); save(); }; $('#showSize').onchange=()=>{ $('#sizePill').classList.toggle('on',$('#showSize').checked); renderItems(); };
+$('#btnSnap').onclick=()=>{ const dt=new Date(); const def=`配置 ${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`; const name=prompt('記録の名前',def); if(name===null) return; state.snapshots=state.snapshots||[]; state.snapshots.unshift({name:name||def,at:Date.now(),items:JSON.parse(JSON.stringify(state.items)),floor:JSON.parse(JSON.stringify(state.floor))}); if(state.snapshots.length>20) state.snapshots.length=20; save(); renderSnaps(); toast('配置を記録しました'); };
+$('#btnReset').onclick=()=>{ if(!confirm('初期配置に戻しますか？（現在の配置は「戻す」で復元できます）')) return; state.items=defaultItems(); nextId=1000; sel=null; commit(); renderItems(); };
+$('#btnClear').onclick=()=>{ if(!confirm('すべての什器を片付けますか？')) return; state.items=[]; sel=null; commit(); renderItems(); };
+
+// 図面枠
+[['mTitle','title'],['mVenue','venue'],['mDate','date'],['mAuthor','author'],['mNote','note']].forEach(([id,k])=>{ const inp=$('#'+id); inp.value=state.meta[k]||''; inp.addEventListener('input',()=>{ state.meta[k]=inp.value; save(); renderTitleBlock(); }); });
+// 会場の形
+$('#floorApply').onclick=()=>{ const pts=$('#floorText').value.split('\n').map(l=>l.split(/[,\s]+/).filter(Boolean).map(Number)).filter(p=>p.length===2&&p.every(isFinite)); if(pts.length<3){ toast('頂点は3つ以上必要です'); return; } state.floor=pts; commit(); renderAll(); fitView(); };
+$('#floorReset').onclick=()=>{ state.floor=DEFAULT_FLOOR.map(p=>p.slice()); commit(); renderAll(); fitView(); };
+// 下敷き
+$('#bgFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const rd=new FileReader(); rd.onload=()=>{ const img=new Image(); img.onload=()=>{ state.bg={src:rd.result,w:+$('#bgW').value||20000,x:+$('#bgX').value||0,y:+$('#bgY').value||0,op:+$('#bgOp').value,ratio:img.width/img.height}; save(); renderBg(); toast('下敷きを読み込みました'); }; img.src=rd.result; }; rd.readAsDataURL(f); };
+['bgW','bgX','bgY','bgOp'].forEach(id=>$('#'+id).addEventListener('input',()=>{ $('#bgOpV').textContent=(+$('#bgOp').value).toFixed(2); if(!state.bg) return; state.bg.w=+$('#bgW').value||20000; state.bg.x=+$('#bgX').value||0; state.bg.y=+$('#bgY').value||0; state.bg.op=+$('#bgOp').value; save(); renderBg(); }));
+$('#bgClear').onclick=()=>{ state.bg=null; save(); renderBg(); };
+
+// ファイル保存（公開ページでは downloads capability、ローカルでは通常ダウンロード）
+async function saveFile(filename, data){
+  let dl=null; try{ if(window.claude&&typeof window.claude.use==='function') dl=await window.claude.use('downloads'); }catch(e){}
+  if(dl){ try{ await dl.save({filename, data}); toast('保存しました'); return true; }
+    catch(e){ const c=e&&e.code; if(c==='declined') toast('保存をキャンセルしました'); else if(c==='rate_limited') toast('少し待ってからもう一度お試しください'); else toast('この環境ではファイル保存ができません'); return false; } }
+  const a=document.createElement('a'); const url=typeof data==='string'?'data:application/octet-stream;charset=utf-8,'+encodeURIComponent(data):URL.createObjectURL(data);
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); if(typeof data!=='string') setTimeout(()=>URL.revokeObjectURL(url),2000); toast('ダウンロードを開始しました'); return true;
+}
+// 保存データ
+const dlg=$('#dlgSave');
+$('#btnSave').onclick=()=>{ $('#saveText').value=JSON.stringify({items:state.items,floor:state.floor,meta:state.meta,qty:state.qty,snapshots:state.snapshots||[]},null,1); dlg.showModal(); };
+$('#saveClose').onclick=()=>dlg.close();
+$('#saveCopy').onclick=async()=>{ try{ await navigator.clipboard.writeText($('#saveText').value); toast('コピーしました'); }catch(e){ $('#saveText').select(); toast('選択したので ⌘C でコピーしてください'); } };
+$('#saveLoad').onclick=()=>{ try{ const o=JSON.parse($('#saveText').value); if(!Array.isArray(o.items)) throw 0; hist.push(snapshot()); state.items=o.items; if(o.floor) state.floor=o.floor; if(o.meta) state.meta={...state.meta,...o.meta}; if(o.qty) state.qty=o.qty; if(Array.isArray(o.snapshots)) state.snapshots=o.snapshots; nextId=Math.max(1000,...state.items.map(i=>i.id+1)); sel=null; save(); renderAll(); fitView(); dlg.close(); toast('読み込みました'); }catch(e){ toast('JSON を読み取れませんでした'); } };
+$('#saveDl').onclick=()=>saveFile('sancha_patio_layout.json', $('#saveText').value);
+
+// PNG / 印刷
+async function exportPng(){
+  const r=svg.getBoundingClientRect(); const cs=getComputedStyle(document.documentElement);
+  const clone=svg.cloneNode(true); clone.setAttribute('width',r.width*2); clone.setAttribute('height',r.height*2); clone.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);
+  clone.querySelectorAll('#selLayer').forEach(n=>n.innerHTML='');
+  // CSS変数を実値へ
+  const vars=['--ink','--ink-2','--ink-3','--grid','--grid-major','--panel','--paper','--floor','--floor-fill','--accent','--line','--line-2'];
+  let s=new XMLSerializer().serializeToString(clone);
+  vars.forEach(v=>{ s=s.split(`var(${v})`).join(cs.getPropertyValue(v).trim()); });
+  s=s.replace('<svg ',`<svg style="font-family:'Geist','Hiragino Sans',sans-serif" `);
+  s='<?xml version="1.0" encoding="UTF-8"?>'+s;
+  const blob=new Blob([s],{type:'image/svg+xml;charset=utf-8'}); const url=URL.createObjectURL(blob);
+  const img=new Image(); await new Promise((ok,ng)=>{img.onload=ok;img.onerror=ng;img.src=url;});
+  const c=document.createElement('canvas'); c.width=r.width*2; c.height=r.height*2; const ctx=c.getContext('2d'); ctx.fillStyle=cs.getPropertyValue('--paper').trim(); ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(img,0,0); URL.revokeObjectURL(url);
+  const png=await new Promise(ok=>c.toBlob(ok,'image/png'));
+  const ok=await saveFile('sancha_patio_layout.png', png);
+  if(!ok){ try{ await navigator.clipboard.write([new ClipboardItem({'image/png':png})]); toast('PNG をクリップボードにコピーしました'); }catch(e){} }
+}
+$('#btnPng').onclick=()=>exportPng().catch(()=>toast('PNG の書き出しに失敗しました（下敷き画像が大きい可能性）'));
+let viewBackup=null;
+$('#btnPrint').onclick=()=>window.print();
+window.addEventListener('beforeprint',()=>{ viewBackup={...view}; sel=null; renderSel(); setTimeout(fitView,0); fitView(); });
+window.addEventListener('afterprint',()=>{ if(viewBackup){ view=viewBackup; applyView(); } });
+
+// 起動
+load(); renderPalette(); renderAll();
+requestAnimationFrame(()=>{ fitView(); });
+window.addEventListener('resize',()=>{ renderTitleBlock(); });
+})();
+</script>
